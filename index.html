@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="css/styles.css">
+        <link rel="stylesheet" href="css/custom.css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    </head>
+    <body>
+        <script>
+            // Transitions
+            document.addEventListener("DOMContentLoaded", function(){
+
+                let inp = 1;
+                let input = {id: "", coinid: "", position: 0};
+                let inputsArr = [];
+
+                let output = {id: "", amount: 0, address: "", tokenid: "", position: 0};
+                let outputsArr = [];
+
+
+                const menu = document.getElementById("start-menu-title");
+                const help = document.getElementById("help-menu-title");
+                const createBtn = document.getElementById("btnWrap1");
+                const provideBtn = document.getElementById("btnWrap2");
+                const helpBtn = document.getElementById("helpBtn");
+                const helpDiv = document.getElementById("help");
+
+                $('#helpBtn').on('click', function(){
+                    setTimeout(() => {
+                        menu.classList.add("scale-out");
+                        createBtn.classList.add("scale-out");
+                        provideBtn.classList.add("scale-out");
+
+
+                        $('#s-menu').css("display", "none");
+                        $('#s-help').css("display", "block");
+
+                    }, 75);
+
+
+                });
+                $('#homeBtn').on('click', function(){
+                    setTimeout(() => {
+                        menu.classList.add("scale-in");
+                        createBtn.classList.add("scale-in");
+                        provideBtn.classList.add("scale-in");
+
+                        $('#s-menu').css("display", "block");
+                        $('#s-help').css("display", "none");
+
+                    }, 150);
+
+                });
+                $('#homeBtn2').on('click', function(){
+                    setTimeout(() => {
+                        menu.classList.add("scale-in");
+                        createBtn.classList.add("scale-in");
+                        provideBtn.classList.add("scale-in");
+
+
+                        $('#s-menu').css("display", "block");
+                        $('#s-create').css("display", "none");
+
+                    }, 150);
+
+                });
+                $('#homeBtn3').on('click', function(){
+                    setTimeout(() => {
+                        $('#s-create').css("display", "block");
+                        $('#s-inputs').css("display", "none");
+
+                    }, 150);
+                });
+                $('#createBtn').on('click', function(){
+
+                    setTimeout(() => {
+                        menu.classList.add("scale-out");
+                        createBtn.classList.add("scale-out");
+                        provideBtn.classList.add("scale-out");
+
+
+                        $('#s-menu').css("display", "none");
+                        $('#s-create').css("display", "block");
+
+                    }, 75);
+                    
+
+                });
+                
+                function addInput(inp) {
+
+                    var markup = "<div class='col s12 input-field'>"+
+                                 "<img class='prefix' style='width: 30px;' src='assets/slot-machine.svg'>"+
+                                 "<input type='text' id=input"+inp+">"+
+                                 "<label for=input"+inp+">Coin #"+inp+"</label>"+
+                                 "</div>";
+
+                    if($('#inputsWrapper input').length > 0){
+                        console.log("Found an input");
+                        $('#inputsWrapper:last-child').append(markup);
+                    } else {
+                        $('#inputsWrapper').append(markup);
+                    }
+
+                }
+
+                $('#addInput').on('click', function(){
+                    
+                    addInput(inp);
+                    inp++;
+                });
+                
+                function createMultiSig() {
+
+                    const id = Math.floor(Math.random()*1000000000);
+
+                    // Making a multi-sig transaction
+                    const txn = "createtxn "+id+
+                                "txninput "+id+" "+coinid+" "+position+
+                                "txnoutput "+id+" "+amount+" "+address+" "+tokenid+" "+position;
+        
+
+                }
+
+                function createForm(users, min) {
+
+
+
+                }
+
+                $('#proceedBtn').on('click', function(){
+                    var users = $('#users').val();
+                    users = parseInt(users);
+                    var minimum = $('#minimum').val();
+                    if(users !== 2 && minimum <= users) {
+                        if(confirm("This will be a "+minimum+"/"+users+" multi-signature transaction.")) {
+                            $('#s-create').css("display", "none");
+                            $('#s-inputs').css("display", "block");
+                        }
+                    } else if(users == 2 && minimum == users) {
+                        if(confirm("This will be a "+minimum+"/"+users+" multi-signature transaction.")) {
+                            $('#s-create').css("display", "none");
+                            $('#s-inputs').css("display", "block");
+                        }
+                    } else if((users == 1 || users < 2) && minimum >= users) {
+                        alert("You can't create a multi-signature alone.");
+                    } else {
+                        alert("Invalid MultiSig Transaction!");
+                    }
+                });
+
+                setTimeout(() => {
+                    menu.classList.add("scale-in");
+                    createBtn.classList.add("scale-in");
+                    provideBtn.classList.add("scale-in");
+                    helpDiv.classList.add("scale-in");
+                }, 300);
+            });
+        </script>
+
+        <div id="mainMenu" class="valign-wrapper" style="width:100%; height:100%; position:absolute; ">
+            <!-- Main -->
+            <div id="s-menu" class="container z-depth-1">
+                <div class="row center-align no-padding">
+                    <div class="col s12">
+                        <h1 style="margin: 0; padding: 0;">
+                            <img id="icon" src="assets/polysig.png"> 
+                        </h1>
+                    </div>
+                </div>
+                <div class="row h-10 center-align no-padding">
+                    <div id="start-menu-title" class="start-menu col s12 scale-transition scale-out my-auto">
+                        <h1 style="margin:0; padding: 0;">PolySig.</h1>
+                         <p class="center-align">Creating a Multi-Sig transaction has never been easier.</p>
+                    </div>
+                </div>
+                <div class="row center-align">
+                    <div id="btnWrap1" class="col s6 scale-transition scale-out">
+                        <div id="createBtn" class="btn-flat waves-effect waves-light">
+                            Create.
+                        </div>
+                    </div>
+                    <div id="btnWrap2" class="col s6 scale-transition scale-out">
+                        <div id="provideBtn" class="btn-flat waves-effect waves-light">
+                            Contracts.
+                        </div>
+                    </div>
+                </div>
+                <div class="row center-align">
+                    <div id="help" class="col s12 scale-transition scale-out">
+                        <div id="helpBtn" class="btn-flat waves-effect waves-light">
+                            Help.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Help -->
+            <div id="s-help" class="container z-depth-1" style="display: none;">
+                <div class="row center-align no-padding">
+                    <div class="col s12">
+                        <h1 style="margin: 0; padding: 0;">
+                            <img id="icon" src="assets/polysig.png"> 
+                        </h1>
+                    </div>
+                </div>
+                <div class="row h-10 center-align no-padding">
+                    <div id="start-menu-title" class="start-menu col s12 scale-transition scale-in my-auto">
+                        <h1 style="margin:0; padding: 0;">PolySig.</h1>
+                    </div>
+                </div>
+                <div class="row center-align">
+                    <div class="col s12">
+                        <ul class="collection with-header">
+                            <li class="collection-header"><h4>Use cases for PolySig &mdash; MultiSig Transactions</h4></li>
+                            <li class="collection-item">You might lose access to your phone/wallet and are unable to retrieve your coins.</li>
+                            <li class="collection-item">You might want to have a shared vault with your significant other/childhood friend.</li>
+                            <li class="collection-item">Safeguarding your coins in case you/they go missing, or goodness forbid ..death..</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row center-align">
+                    <div class="col s12">
+                        <div id="homeBtn" class="btn waves-effect waves-light">
+                            <i id="forward" class="material-icons left no-padding">arrow_back</i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Create -->
+            <div id="s-create" class="container z-depth-1" style="display: none;">
+                <div class="row center-align">
+                    <div id="create-menu-title" class="col s-12">
+                        <h1>
+                            <i id="info" class="tiny material-icons" style="margin: 0;">info</i> How many user(s) are you using in your multi-signature transaction?
+                        </h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12 m6">
+                        <i class="material-icons prefix">lock</i>
+                        <input id="users" type="number" class="validate">
+                        <label for="icon_prefix">No. of Signee</label>
+                    </div>
+                    <div class="input-field col s12 m6">
+                        <i class="material-icons prefix">lock_open</i>
+                        <input id="minimum" type="number" class="validate">
+                        <label for="icon_prefix">Minimum signatures needed to unlock.</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s10 offset-s1 center-align">
+                        <div id="proceedBtn" class="btn-flat waves-effect waves-light" style="vertical-align: middle">
+                            <i id="forward" class="material-icons right no-padding">arrow_forward</i>Proceed
+                        </div>
+                    </div>
+                </div>
+                <div class="row center-align">
+                    <div class="col s12">
+                        <div id="homeBtn2" class="btn-flat waves-effect waves-light" style="vertical-align: middle">
+                            <i id="forward" class="material-icons left no-padding">arrow_back</i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="s-inputs" class="container z-depth-1" style="display: none;">
+                <div class="row center-align">
+                    <div id="create-menu-title" class="col s-12">
+                        <h1>
+                            <i id="info" class="tiny material-icons" style="margin: 0;">info</i> Insert coins as inputs for every user(s).
+                        </h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s6 valign-wrapper">
+                        <h6 id="titles"><img class='left' style='width: 25px; margin-left: 5px; ' src='assets/coin.svg'>Your PolySig inputs</h6>
+                    </div>
+                    <div id="inputsWrapper" class="col s12">
+                        <div class='col s12 input-field'>
+                            <img class='prefix ' style='width: 30px;' src='assets/slot-machine.svg'>
+                            <input type='text' id=input0">
+                            <label for='input0'>Coin #0</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row center-align">
+                    <div class="col s12 center-align">
+                        <div id="addInput" class="btn waves-effect waves-light"><i class="left no-padding large material-icons">add</i>Add Input</div>
+                    </div>
+                </div>
+                <div class="row center-align">
+                    <div class="col s12 center-align">
+                        <div id="homeBtn3" class="btn-flat waves-effect waves-light" style="vertical-align: middle">
+                            <i id="forward" class="material-icons left no-padding">arrow_back</i>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+        <script src="materialize-src/js/bin/materialize.js" async defer></script>
+    </body>
+</html>

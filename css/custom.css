@@ -1,0 +1,103 @@
+body {
+    background: url("/assets/diego.jpg")
+}
+#mainMenu {
+    overflow: hidden;
+}
+#inputsWrapper {
+    flex-shrink: inherit;
+}
+#s-menu, #s-help, #s-create, #s-inputs {
+    background: rgba(180,166,238, 0.1);
+}
+#createBtn, #provideBtn, #proceedBtn, #addInput {
+    background-color: rgba(255,90,91, 0.8);
+    color: rgb(217,218,224);
+}
+#homeBtn, #homeBtn2, #homeBtn3 {
+    background-color: rgb(38,166,154);
+    color: rgb(217,218,224);
+    height: 33px;
+}
+#provideBtn:hover, #createBtn:hover, #proceedBtn:hover, #homeBtn3:hover, #homeBtn2:hover,  #homeBtn:hover, #addInput:hover {
+    background-color: rgba(255,90,91, 0.7);
+    background: -webkit-linear-gradient(#eee, #6352b9);
+}
+#helpBtn {
+    color: rgb(217,218,223);
+}
+#start-menu-title h1, #help-menu-title h1 {
+    font-size: 2.0rem;
+    font-weight: 130;
+    letter-spacing: -0.02em;
+    background: -webkit-linear-gradient(#eee, #765EE9);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    padding-bottom: 2px;
+}
+#create-menu-title h1 {
+    font-size: 1.4rem;
+    font-weight: 130;
+    letter-spacing: -0.02em;
+    padding-bottom: 2px;
+    color: rgb(217,218,223) !important;
+    opacity: 0.7;
+}
+#create-menu-title h1 i {
+    color: rgb(180,109,225) !important;
+    
+}
+#start-menu-title p {
+    font-size: 1.5rem;
+    position: relative;
+    font-weight: 130;
+    opacity: 0.6;
+    color: #fff;
+} 
+#titles {
+    color: rgb(217,218,224) !important;
+    font-size: 1.7rem;
+    font-weight: 120;
+    position: relative;
+    border-bottom: 1px solid rgb(180,109,225);
+}
+#icon {
+    width: 35px;
+    position: relative;
+    z-index:-1;
+}
+.collection-header h4 {
+    font-size: 1.7rem;
+    font-weight: 180;
+    text-decoration: double;
+    color: #000;
+}
+.collection.with-header .collection-header {
+    color: #fff;
+    font-weight: 180;
+    background-color:rgba(202,198,229, 0.6) !important;
+    border-bottom: 1px solid rgb(248,246,254) !important;
+}
+.collection-item {
+    color: #fff;
+    font-weight: 130;
+    font-size: 1.5rem;
+    opacity: 0.7;
+    background-color: rgba(159,143,239, 0.3) !important;
+    border-bottom: 1px solid grey !important;
+}
+#forward {
+    margin:0;
+    padding:0;
+}
+.nav-wrapper {
+    background-color: rgb(246,115,121);
+}
+.nav-wrapper .col a {
+    color: rgb(217,218,224);
+}
+#addInput {
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: rgb(217,218,224);
+}
