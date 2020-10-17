@@ -81,6 +81,20 @@
 
                     }, 150);
                 });
+                $('#tipsBtn1').on('click', function(){
+                    setTimeout(() => {
+                        $('#s-inputs').css("display", "none");
+                        $('#s-tips1').css("display", "block");
+
+                    }, 150);
+                });
+                $('#backBtn1').on('click', function(){
+                    setTimeout(() => {
+                        $('#s-tips1').css("display", "none");
+                        $('#s-inputs').css("display", "block");
+
+                    }, 150);
+                });
                 $('#createBtn').on('click', function(){
 
                     setTimeout(() => {
@@ -96,7 +110,9 @@
                     
 
                 });
-                
+                $('#minusInput').on('click', function(){
+                    minusInput(inp);
+                });
                 function addInput(inp) {
 
                     var markup = "<div class='col s12 input-field'>"+
@@ -106,12 +122,17 @@
                                  "</div>";
 
                     if($('#inputsWrapper input').length > 0){
-                        console.log("Found an input");
                         $('#inputsWrapper:last-child').append(markup);
                     } else {
                         $('#inputsWrapper').append(markup);
                     }
 
+                }
+                function minusInput() {
+                    if(inp > 0) {
+                        $('#inputsWrapper > :last-child').remove();
+                        inp--;
+                    }
                 }
 
                 $('#addInput').on('click', function(){
@@ -272,6 +293,7 @@
                     </div>
                 </div>
             </div>
+            <!-- Inputs -->
             <div id="s-inputs" class="container z-depth-1" style="display: none;">
                 <div class="row center-align">
                     <div id="create-menu-title" class="col s-12">
@@ -281,10 +303,93 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col s6 valign-wrapper">
-                        <h6 id="titles"><img class='left' style='width: 25px; margin-left: 5px; ' src='assets/coin.svg'>Your PolySig inputs</h6>
+                    <div class="col s12 m6">
+                        <h6 id="titles"><img class='left' style='width: 25px; margin-left: 5px; ' src='assets/coin.svg'>Your PolySig inputs.</h6>
+                    </div>
+                    <div class="col s12">
+                        <div id="addInput" class="btn-flat small waves-effect waves-block secondary-content"><i class="left no-padding small material-icons">add</i>Input</div>
+                    </div>
+                    <div id="minus" class="col s12 center-align">
+                        <div id="minusInput" class="btn-flat small waves-effect waves-block secondary-content">&mdash; Input</div>
                     </div>
                     <div id="inputsWrapper" class="col s12">
+                        <div class='col s12 input-field'>
+                            <img class='prefix ' style='width: 30px;' src='assets/slot-machine.svg'>
+                            <input type='text' id=input0">
+                            <label for='input0'>Coin #0</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s10 offset-s1 center-align">
+                        <div id="proceedBtn" class="btn-flat waves-effect waves-light" style="vertical-align: middle">
+                            <i id="forward" class="material-icons right no-padding">arrow_forward</i>Proceed
+                        </div>
+                    </div>
+                </div>
+                <div class="row center-align">
+                    <div class="col s12 center-align">
+                        <div id="homeBtn3" class="btn-flat waves-effect waves-light" style="vertical-align: middle">
+                            <i id="forward" class="material-icons left no-padding">arrow_back</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="row center-align">
+                    <div id="tipsBtn1" class="col s12 scale-transition">
+                        <div id="helpBtn" class="btn-flat waves-effect waves-light">
+                            Tips.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Inputs Tips -->
+            <!-- Help -->
+            <div id="s-tips1" class="container z-depth-1" style="display: none;">
+                <div class="row center-align no-padding">
+                    <div class="col s12">
+                        <h1 style="margin: 0; padding: 0;">
+                            <img id="icon" src="assets/polysig.png"> 
+                        </h1>
+                    </div>
+                </div>
+                <div class="row h-10 center-align no-padding">
+                    <div id="start-menu-title" class="start-menu col s12 scale-transition scale-in my-auto">
+                        <h1 style="margin:0; padding: 0;">PolySig.</h1>
+                    </div>
+                </div>
+                <div class="row center-align">
+                    <div class="col s12">
+                        <ul class="collection with-header">
+                            <li class="collection-header"><h4>Tips #1 &mdash; Inputs</h4></li>
+                            <li class="collection-item">To obtain your partner's coins use these functions in your MINI terminal</li>
+                            <li class="collection-item">&mdash; <a href=''>exportcoin</a> <span id="descr">[coinid] - export the proof of a single coin. Share it.</span></li>
+                            <li class="collection-item">&mdash; <a href=''>importcoin</a> <span id="descr">[data] - Import the proof of a coin.</span></li>
+                            <li class="collection-item">&mdash; <a href=''>keepcoin</a>  <span id="descr">[coinid] - Add a coin to the list of coins you keep track of. MUST be a recent coin in the current blocks.</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row center-align">
+                    <div class="col s12">
+                        <div id="backBtn1" class="btn waves-effect waves-light">
+                            <i id="forward" class="material-icons left no-padding">arrow_back</i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Outputs -->
+            <div id="s-outputs" class="container z-depth-1" style="display: none;">
+                <div class="row center-align">
+                    <div id="create-menu-title" class="col s-12">
+                        <h1>
+                            <i id="info" class="tiny material-icons" style="margin: 0;">info</i> Insert your output script address.
+                        </h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s6 valign-wrapper">
+                        <h6 id="titles"><img class='left' style='width: 25px; margin-left: 5px; ' src='assets/coin.svg'>Your PolySig output.</h6>
+                    </div>
+                    <div id="outputWrapper" class="col s12">
                         <div class='col s12 input-field'>
                             <img class='prefix ' style='width: 30px;' src='assets/slot-machine.svg'>
                             <input type='text' id=input0">
@@ -304,9 +409,8 @@
                         </div>
                     </div>
                 </div>
-
-
             </div>
+            <!-- Outputs Help -->
         </div>
 
         <script src="materialize-src/js/bin/materialize.js" async defer></script>
