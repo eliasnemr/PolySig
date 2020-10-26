@@ -105,6 +105,14 @@
                     $('#s-finalize').css("display", "none");
 
                 });
+                $('#homeBtn7').on('click', function(){
+                    $('#s-export').css("display", "none");
+                    $('#s-finalize').css("display", "block");
+                });
+                $('#homeBtn8').on('click', function(){
+                    $('#s-imported-post').removeClass('hide');
+                    $('#s-export').css("display", "block");
+                });
                 $('#tipsBtn1').on('click', function(){
                     setTimeout(() => {
                         $('#s-inputs').css("display", "none");
@@ -399,7 +407,6 @@
                                                 "<div class='col s12'>"+
                                                     "<div id='scriptWrapper' class='card'>"+
                                                         "<div class='card-content white-text'>"+
-                                                            "<span class='card-title'>Your <span id='brand'>PolySig</span> Script</span>"+
                                                             "<p>"+script+"</p>"+
                                                             "<i class='material-icons' style='color: rgb(109,104,174) !important;'>arrow_forward</i>"+
                                                             "<p>"+res.response.address.hexaddress+"</p>"+
@@ -494,6 +501,59 @@
 
                     copyText("exportedContract");
 
+                });
+                $('#importContractBtn').on('click', function(){
+
+                    const importedHEX = $('#importedContract').val();
+                    const currID = input.id;
+                    $('#s-export').addClass("hide");
+                    $('#s-imported-post').removeClass("hide");
+
+                    Minima.cmd('txnimport '+currID+' '+importedHEX, function(res){
+
+                        if (res.status) {
+                            res.response.transactions.forEach(txn => {
+
+                                if (txn.id == currID) {
+                                    console.log(txn);
+    
+                                    $('#finalContractDetails0 > p').text(currID);
+                                    $('#finalContractDetails1 > p').text(txn.transaction.inputs.length);
+                                    $('#finalContractDetails2 > p').text(txn.transaction.outputs.length);
+                                    $('#finalContractDetails3 > p').text(txn.witness.scripts.length);
+
+
+    
+    
+                                }
+    
+                            });
+
+                        }
+                        
+                    });
+                });
+                $('#signAndPostBtn').on('click', function(){
+
+                    Minima.cmd('txnsignauto '+input.id+';'+'txnpost '+input.id+';'+'txndelete '+input.id, function(res){
+                        if (Minima.util.checkAllResponses(res)) {
+                            console.log(res);
+                            M.toast({html: "Contract posted!", classes:"success"});
+
+                            $('#s-imported-post').addClass('hide');
+                            $('#s-posted-details').removeClass('hide');
+
+                            $('#postedContractDetails0 > p').text(input.id);
+                            $('#postedContractDetails1 > p').text(res[1].response.size);
+                            $('#postedContractDetails2 > p').text(moment(Date.now()).format("dddd, MMMM Do YYYY, h:mm:ss a"));
+
+                        }
+                    })
+
+                });
+                $('#postedContractHomeBtn').on('click', function(){
+                    $('#s-menu').css("display", "block");
+                    $('#s-posted-details').addClass("hide");
                 });
                 
                 /** TOOLS */
@@ -810,7 +870,7 @@
                 $('#impClose').on("click", function(){
                     $('#importTool').addClass('hide');
                 })
-                
+
                 setTimeout(() => {
                     menu.classList.add("scale-in");
                     createBtn.classList.add("scale-in");
@@ -836,11 +896,8 @@
                 <div class="col s12 m6">
                     <a id="genBtn" class="waves-effect waves-light btn waves-block z-depth-1"><img src="assets/keys.svg" class="left" style="width: 22px;">Generate Key</a> 
                 </div>
-                <div class="col s12 m6">
+                <div class="col s12">
                     <a id="impBtn" class="waves-effect waves-light btn waves-block z-depth-1"><img src="assets/import.svg" class="left" style="width: 22px;">TXN Import</a>    
-                </div>
-                <div class=" col s12 m6">
-                    <a id="expBtn" class="waves-effect waves-light btn waves-block z-depth-1"><img src="assets/export.svg" class="left" style="width: 22px;">TXN Export</a>
                 </div>
             </div>
             <div id="coinsTool" class="section hide">
@@ -1213,13 +1270,6 @@
                     </div>
                 </div>
                 <div class="row center-align">
-                    <div class="col s10 offset-s1 center-align">
-                        <div id="proceedBtnPost" class="btn-flat waves-effect waves-light" style="vertical-align: middle">
-                            <i id="forward" class="material-icons right no-padding">arrow_forward</i>Proceed
-                        </div>
-                    </div>
-                </div>
-                <div class="row center-align">
                     <div class="col s12 center-align">
                         <div id="homeBtn6" class="btn-flat waves-effect waves-light" style="vertical-align: middle">
                             <i id="forward" class="material-icons left no-padding">arrow_back</i>
@@ -1232,7 +1282,7 @@
                 <div class="row center-align">
                     <div id="create-menu-title" class="col s-12">
                         <h1>
-                            <i id="info" class="tiny material-icons" style="margin: 0;">info</i> Send the exported contract to your partner(s) so that they can sign it and re-send it.
+                             <i id="info" class="tiny material-icons" style="margin: 0;">info</i> Send the exported contract to your partner(s) so that they can sign it and re-send the hexaddress.
                         </h1>
                     </div>
                 </div>
@@ -1250,21 +1300,26 @@
                             </div>
                         </div>
 
+                        <div id="create-menu-title" class="row valign-wrapper">
+                            <div class="col s12">
+                                <h1>
+                                    <i id="info" class="tiny material-icons" style="margin: 0;">info</i> When ready, paste the newer hexaddress below and let's continue...
+                               </h1>    
+                            </div>
+                        </div>
+
                         <div class="row valign-wrapper">
-                            <div class="input-field col s8">
+                            <div class="input-field col s12">
                                 <i class="material-icons prefix">edit</i>
                                 <input type="text" id="importedContract" class="validate">
                                 <label for="importedContract">Imported Contract</label>
-                            </div>
-                            <div class="col s4">
-                                <span class="valign left copy"><i class="material-icons">content_paste</i>Clipboard</span>
                             </div>
                         </div>
                         
                         <div class="row center-align">
                             <div class="col s10 offset-s1 center-align">
-                                <a id="proceedBtnScript" href="#contract" class="btn-flat waves-effect waves-light" style="vertical-align: middle">
-                                    <i id="forward" class="material-icons right no-padding">arrow_forward</i>Import Transaction.
+                                <a id="importContractBtn" href="#contract" class="btn-flat waves-effect waves-light" style="vertical-align: middle">
+                                    <i id="forward" class="material-icons right no-padding">arrow_forward</i>Import Contract
                                 </a>
                             </div>
                         </div>
@@ -1272,23 +1327,91 @@
                     </div>
                 </div>
 
-
-                <div class="row center-align">
-                    <div class="col s10 offset-s1 center-align">
-                        <div id="proceedBtnPost" class="btn-flat waves-effect waves-light" style="vertical-align: middle">
-                            <i id="forward" class="material-icons right no-padding">arrow_forward</i>Proceed
-                        </div>
-                    </div>
-                </div>
                 <div class="row center-align">
                     <div class="col s12 center-align">
-                        <div id="homeBtn6" class="btn-flat waves-effect waves-light" style="vertical-align: middle">
+                        <div id="homeBtn7" class="btn-flat waves-effect waves-light" style="vertical-align: middle">
                             <i id="forward" class="material-icons left no-padding">arrow_back</i>
                         </div>
                     </div>
                 </div>
             </div>
+            <!-- Imported Contract Post -->
+            <div id="s-imported-post" class="container z-depth-1 hide">
+                <div class="row center-align">
+                    <div id="create-menu-title" class="col s-12">
+                        <h1>
+                            <i id="info" class="tiny material-icons" style="margin: 0;">info</i> You are ready to post your <span id="brand" style="font-size: 1.5rem;">PolySig</span> Contract!
+                        </h1>
+                    </div>
+                </div>
+
+                <div class="row center-align">
+                    <div class="col s12">
+                        <div id="finalContractImport" class="card contract-card">
+                            <div class="card-image">
+                                <img src="assets/diego.jpg" style="height: 150px">
+                                <div class="card-title"><h6 id="titles"><img class='left' style='width: 25px; margin-right: 5px; ' src='assets/polysig.png'>Your <span id="brand" >PolySig</span> Contract</h6></div>
+                            </div>
+                            <div class="card-content">
+                                <ul class='collection with-header'>
+                                    <li id='finalContractDetails0' class='collection-item contract-item'><h4>Transaction ID</h4><p></p></li>
+                                    <li id="finalContractDetails1" class='collection-item contract-item'><h4>Number of Inputs</h4><p></p></li>
+                                    <li id="finalContractDetails2" class='collection-item contract-item'><h4>Number of Outputs</h4><p></p></li>
+                                    <li id="finalContractDetails3" class='collection-item contract-item'><h4>Number of Signatures</h4><p></p></li>
+                                </ul>
+                            </div>
+                            <div class="card-action center-align">
+                                <a id="signAndPostBtn" class='btn-flat waves-block waves-effect waves-light'>Sign and Post</a>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col s12 center-align">
+                        <div id="homeBtn8" href="#export" class="btn-flat waves-effect waves-light" style="vertical-align: middle">
+                            <i id="forward" class="material-icons left no-padding">arrow_back</i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Posted  -->
+            <div id="s-posted-details" class="container z-depth-1 hide">
+                <div class="row center-align">
+                    <div id="create-menu-title" class="col s-12">
+                        <h1>
+                            <i id="info" class="tiny material-icons" style="margin: 0;">info</i> Your <span id="brand" style="font-size: 1.5rem;">PolySig</span> Contract has been posted!
+                        </h1>
+                    </div>
+                </div>
+
+                <div class="row center-align">
+                    <div class="col s12">
+                        <div id="finalContractImport" class="card contract-card">
+                            <div class="card-image">
+                                <img src="assets/diego.jpg" style="height: 150px">
+                                <div class="card-title"><h6 id="titles"><img class='left' style='width: 25px; margin-right: 5px; ' src='assets/polysig.png'>Your <span id="brand" >PolySig</span> Contract</h6></div>
+                            </div>
+                            <div class="card-content">
+                                <ul class='collection with-header'>
+                                    <li id='postedContractDetails0' class='collection-item contract-item'><h4>Transaction ID</h4><p></p></li>
+                                    <li id="postedContractDetails1" class='collection-item contract-item'><h4>Size</h4><p></p></li>
+                                    <li id="postedContractDetails2" class='collection-item contract-item'><h4>Timestamp</h4><p></p></li>
+                                </ul>
+                            </div>
+                            <div class="card-action">
+                                <a id="postedContractHomeBtn" href="#main" class='btn-flat waves-block waves-effect waves-light'>Main Page</a>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+
         </div>
+        
+    </div>
 
         <div id="modalCreate" class="modal">
             <div class="modal-content">
@@ -1303,6 +1426,7 @@
         
 
         <script src="js/minima.js" async defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/decimal.js/9.0.0/decimal.min.js" integrity="sha512-zPQm8HS4Phjo9pUbbk+HPH3rSWu5H03NFvBpPf6D9EU2xasj0ZxhYAc/lvv/HVDWMSE1Autj19i6nZOfiVQbFQ==" crossorigin="anonymous"></script>
 

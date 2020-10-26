@@ -44,18 +44,21 @@ input {
 #s-inputs, #s-create, #s-keys, #s-script, #s-menu {
     padding: 20px;
 }
-#createBtn, #provideBtn, #proceedBtn, #proceedBtnInputs, #proceedBtnOutputs, #proceedBtnScript {
+#createBtn, #provideBtn, #proceedBtn, #proceedBtnInputs, #proceedBtnOutputs, #proceedBtnScript, #importContractBtn, #postedContractHomeBtn {
     background-color: rgba(255,90,91, 0.8);
     color: rgb(217,218,224);
 }
-#homeBtn, #homeBtn2, #homeBtn3, #homeBtn4, #homeBtn5, #homeBtn6, #backBtn1, #homeBtn {
+#homeBtn, #homeBtn2, #homeBtn3, #homeBtn4, #homeBtn5, #homeBtn6, #homeBtn7, #homeBtn8
+     #backBtn1, #homeBtn {
     background-color: rgba(38,166,154, 0.3);
     color: rgb(217,218,224);
     position: absolute; 
     right: 10px; 
     top:10px;
 }
-#provideBtn:hover, #createBtn:hover, #proceedBtn:hover, #proceedBtnInputs:hover, #proceedBtnOutputs:hover, #proceedBtnScript:hover, #homeBtn6:hover, #homeBtn5:hover, #homeBtn4:hover, #homeBtn3:hover, #homeBtn2:hover,  #homeBtn:hover {
+#provideBtn:hover, #createBtn:hover, #proceedBtn:hover, #proceedBtnInputs:hover,
+ #proceedBtnOutputs:hover, #proceedBtnScript:hover, #homeBtn6:hover, #homeBtn5:hover, #homeBtn8:hover,
+  #homeBtn4:hover, #homeBtn3:hover, #homeBtn2:hover,  #homeBtn:hover, #importContractBtn:hover, #postedContractHomeBtn:hover {
     background-color: rgba(255,90,91, 0.7);
     background: -webkit-linear-gradient(#eee, #6352b9);
 }
