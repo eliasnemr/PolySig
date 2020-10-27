@@ -10,7 +10,7 @@ h1 {
 body {
     height: 100% !important;
     width: 100% !important;
-    background: url("/assets/diego.jpg");
+    background: url("/assets/bg.jpg");
 }
 input {
     color: rgba(158,158,158, 1.0) !important;
@@ -38,7 +38,7 @@ input {
 #signee {
     border: 3px solid rgb(180,109,224);
 }
-#s-menu, #s-help, #s-create, #s-inputs, #s-keys, #s-script {
+#s-menu, #s-help, #s-create, #s-inputs, #s-keys, #s-script, #s-finalize, #s-export, #s-imported-post, #s-posted-details {
     background: rgba(180,166,238, 0.1);
 }
 #s-inputs, #s-create, #s-keys, #s-script, #s-menu {
@@ -48,19 +48,18 @@ input {
     background-color: rgba(255,90,91, 0.8);
     color: rgb(217,218,224);
 }
-#homeBtn, #homeBtn2, #homeBtn3, #homeBtn4, #homeBtn5, #homeBtn6, #homeBtn7, #homeBtn8
-     #backBtn1, #homeBtn {
+#homeBtn, #homeBtn2, #homeBtn3, #homeBtn4, #homeBtn5, #homeBtn6, #homeBtn7, #homeBtn8, #homeBtn9, #backBtn1, #homeBtn {
     background-color: rgba(38,166,154, 0.3);
     color: rgb(217,218,224);
     position: absolute; 
     right: 10px; 
     top:10px;
 }
-#provideBtn:hover, #createBtn:hover, #proceedBtn:hover, #proceedBtnInputs:hover,
- #proceedBtnOutputs:hover, #proceedBtnScript:hover, #homeBtn6:hover, #homeBtn5:hover, #homeBtn8:hover,
-  #homeBtn4:hover, #homeBtn3:hover, #homeBtn2:hover,  #homeBtn:hover, #importContractBtn:hover, #postedContractHomeBtn:hover {
+#provideBtn:hover, #createBtn:hover, #proceedBtn:hover, #proceedBtnInputs:hover, #homeBtn9:hover, #proceedBtnOutputs:hover, #proceedBtnScript:hover, #homeBtn6:hover, #homeBtn5:hover, #homeBtn8:hover, #homeBtn4:hover, #homeBtn3:hover, #homeBtn2:hover,  #homeBtn:hover, #importContractBtn:hover, #postedContractHomeBtn:hover {
     background-color: rgba(255,90,91, 0.7);
     background: -webkit-linear-gradient(#eee, #6352b9);
+    color: #000;
+    transform: scale(0.8);
 }
 #helpBtn {
     color: rgb(217,218,223);
@@ -81,6 +80,7 @@ input {
     padding-bottom: 2px;
     color: rgb(217,218,223) !important;
     opacity: 0.7;
+    padding-top: 10px;
 }
 #create-menu-title h1 i {
     color: rgb(180,109,225) !important;
@@ -368,4 +368,51 @@ input {
     color: white;
     opacity: 0.7;
     font-size: 1.2rem;
+}
+
+#contracts .card {
+    background: #fff !important;
+}
+#contracts .collection-header {
+    font-family: RobotoCondensed-Bold !important;
+    font-weight: 80;
+    letter-spacing: -0.02em;
+    border: none !important;
+}
+#contracts .collection-item {
+    padding: 0;
+    margin: 0;
+    margin-top: 7.5px;
+    padding-top: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+#contracts ul {
+    max-height: 823px;
+    overflow-y: auto;
+}
+#contracts .collection-item p {
+    font-weight: 100;
+}
+#contracts .card-title {
+    color: #000;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    font-family: RobotoCondensed-Bold !important;
+}
+#contracts a {
+    font-weight: 800;
+    color: #000;
+    opacity: 0.6;
+}
+#timestamp {
+    font-size: 1.0rem;
+    font-weight: 300 !important;
+    color: #000;
+}
+#contractType {
+    font-weight: 350 !important;
+    padding-bottom: 10px;
+    font-size: 1.3rem;
+    color: #E2761A !important;
 }
