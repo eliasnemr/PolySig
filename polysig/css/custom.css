@@ -1,0 +1,461 @@
+/** Font Families */
+@font-face {
+    font-family: RobotoCondensed-Bold;
+    src: url("/fonts/Roboto_Condensed/RobotoCondensed-Bold.ttf");
+}
+::-webkit-scrollbar {
+    width: 0px;
+    background: transparent; /* make scrollbar transparent */
+}
+a {
+    margin: 0 !important;
+}
+#toolsMenu a {
+    margin-bottom: 5px !important;
+}
+#toolsMenu #coinsBtn:hover, #genBtn:hover, #impBtn:hover {
+    background-color: #6352b9 !important;
+}
+h1 {
+    margin: 0;
+    padding: 0;
+}
+body {
+    height: 100% !important;
+    width: 100% !important;
+    background: url(../assets/bg.jpg);
+}
+input {
+    color: rgba(158,158,158, 1.0) !important;
+    font-weight: 900;
+}
+#brand {
+    font-size: 2.0rem;
+    font-weight: 130;
+    letter-spacing: -0.02em;
+    background: -webkit-linear-gradient(#eee, #765EE9);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    padding-bottom: 2px;
+}
+#mainMenu {
+    margin: 10px;
+}
+#inputsWrapper, #keysWrapper {
+    height:300px;
+    max-height: 300px;
+    overflow-y: scroll;
+    border: 3px solid rgb(180,109,224);
+    padding: 20px;
+}
+#signee {
+    border: 3px solid rgb(180,109,224);
+}
+#s-menu, #s-help, #s-create, #s-inputs, #s-keys, #s-script, #s-finalize, #s-export, #s-imported-post, #s-posted-details {
+    background: rgba(180,166,238, 0.1);
+}
+#s-inputs, #s-create, #s-keys, #s-script, #s-menu {
+    padding: 20px;
+}
+#createBtn, #provideBtn, #proceedBtn, #proceedBtnInputs, #proceedBtnOutputs, #proceedBtnScript, #importContractBtn, #postedContractHomeBtn {
+    background-color: rgba(255,90,91, 0.8);
+    color: rgb(217,218,224);
+}
+#homeBtn, #homeBtn2, #homeBtn3, #homeBtn4, #homeBtn5, #homeBtn6, #homeBtn7, #homeBtn8, #homeBtn9, #backBtn1, #homeBtn {
+    background-color: rgba(38,166,154, 0.3);
+    color: rgb(217,218,224);
+    position: absolute; 
+    right: 10px; 
+    top:10px;
+}
+#provideBtn:hover, #createBtn:hover, #proceedBtn:hover, #proceedBtnInputs:hover, #homeBtn9:hover, #proceedBtnOutputs:hover, #proceedBtnScript:hover, #homeBtn6:hover, #homeBtn5:hover, #homeBtn8:hover, #homeBtn4:hover, #homeBtn3:hover, #homeBtn2:hover,  #homeBtn:hover, #importContractBtn:hover, #postedContractHomeBtn:hover {
+    background-color: rgba(255,90,91, 0.7);
+    background: -webkit-linear-gradient(#eee, #6352b9);
+    color: #000;
+    transform: scale(0.8);
+}
+#helpBtn {
+    color: rgb(217,218,223);
+}
+#start-menu-title h1, #help-menu-title h1 {
+    font-size: 2.0rem;
+    font-weight: 130;
+    letter-spacing: -0.02em;
+    background: -webkit-linear-gradient(#eee, #765EE9);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    padding-bottom: 2px;
+}
+#create-menu-title h1 {
+    font-size: 1.4rem;
+    font-weight: 130;
+    letter-spacing: -0.02em;
+    padding-bottom: 2px;
+    color: rgb(217,218,223) !important;
+    opacity: 0.7;
+    padding-top: 10px;
+}
+#create-menu-title h1 i {
+    color: rgb(180,109,225) !important;
+    
+}
+#start-menu-title p, #keysInformation {
+    font-size: 1.5rem;
+    position: relative;
+    font-weight: 130;
+    opacity: 0.6;
+    color: #fff;
+} 
+#titles {
+    color: rgb(217,218,224) !important;
+    font-size: 1.7rem;
+    font-weight: 120;
+    position: relative;
+    border-bottom: 1px solid rgb(180,109,225);
+    margin-bottom: 10px;
+}
+#icon {
+    width: 35px;
+    position: relative;
+    z-index:-1;
+}
+#descr {
+    font-size: 1.0rem;
+    opacity: 0.7;
+}
+.collection-header h4 {
+    font-size: 1.7rem;
+    font-weight: 500;
+    color: #f2f2f2;
+}
+.collection.with-header .collection-header {
+    color: #fff;
+    font-weight: 180;
+    background-color:rgba(201, 198, 229, 0.2) !important;
+    border-bottom: 1px solid rgb(248,246,254) !important;
+}
+.collection-item {
+    color: #fff;
+    font-weight: 130;
+    font-size: 1.5rem;
+    opacity: 0.7;
+    background-color: rgba(159,143,239, 0.3) !important;
+    border-bottom: 1px solid grey !important;
+}
+#forward {
+    margin:0;
+    padding:0;
+}
+.nav-wrapper {
+    background-color: rgb(246,115,121);
+}
+.nav-wrapper .col a {
+    color: rgb(217,218,224);
+}
+#addInput i {
+    padding: 0;
+    margin: 0;
+}
+#addInput {
+    font-size: 1.0rem;
+    font-weight: 200;
+    color: rgb(38,166,154)
+}
+#minusInput {
+    color: rgb(215,84,89) !important;
+}
+#electronicKey {
+    filter: invert(409%) sepia(79%) saturate(2476%) hue-rotate(86deg) brightness(90%) contrast(119%);
+}
+.script-header h4 {
+    font-size: 0.8rem !important;
+
+}
+.script-header {
+    white-space: normal;
+    opacity: 0.8;
+}
+.script-Wrapper {
+    white-space: normal;
+    word-break: break-all;
+}
+.collection li {
+    white-space: normal;
+    word-break: break-all;
+}
+.script-header h4 {
+    color: rgb(218,220,207);
+    font-size: 2.0rem;
+
+}
+#scriptWrapper {
+    background: rgba(90,76,94, 0.2) !important;
+}
+#scriptWrapper p {
+    font-size: 1.0rem;
+    word-wrap: break-word;
+}
+.script-body {
+    background: rgba(180,166,238, 0.1) !important;
+}
+.script-body #script {
+    font-size: 1.0rem !important;
+}
+.script-body #proof {
+    font-size: 1.2rem !important;
+    font-weight: 400;
+    color: rgb(218,220,207);
+}
+#return {
+    color: rgb(86,138,119);
+    font-weight: 600;
+}
+#signee {
+    padding: 15px;
+}
+
+#tools {
+    z-index: 10;
+    position: absolute;
+    top: 15px;
+    left: 5px;
+    color: #fff;
+    opacity: 0.3;
+}
+#tools:hover {
+    opacity: 0.7;
+    background-color: rgba(138,121,139, 0.7);
+}
+.contract-card {
+    background: rgba(180,166,238, 0.1) !important;
+    border: none !important;
+   
+}
+.contract-header {
+    font-family: RobotoCondensed-Bold !important;
+    font-weight: 80;
+    letter-spacing: -0.02em;
+    font-size: 1.5rem;
+    background: rgba(180,166,238, 0.1) !important;
+    color: rgb(217,218,223) !important;
+}
+.contract-item {
+    white-space: pre-line;
+}
+.contract-item h4 {
+    font-weight: 800;
+    font-size: 1.5rem;
+}
+.contract-item p {
+    background: rgba(180,166,238, 0.1) !important;
+    color: black;
+    font-weight: 900; 
+    font-size: 1.5rem;
+    border: none !important;
+    font-family: RobotoCondensed-Bold !important;
+}
+.contract-item input {
+    color: black !important;
+    text-align: center;
+}
+.contract-item i {
+    position: absolute;
+    right: 5px;
+    color: rgb(9,191,144) !important;
+    
+}
+.contract-item i:hover {
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+.card-content {
+    opacity: .6;
+    z-index: -10;
+    font-size: 32px;
+}
+
+
+/** Modals */
+#modalCreate {
+    background-color: rgba(25,40,47, 0.8);
+    color: rgb(218,220,207);
+}
+#modalCreate .modal-footer {
+    background-color: rgba(25,40,47, 0.8) !important;
+}
+#modalCreate .modal-footer a {
+    color: rgb(218,220,207); 
+}
+.toast {
+    color: rgb(218,220,207);
+    background-color: rgb(173,74,83);
+}
+.card-reveal {
+    background: rgba(180,166,238, 0.8) !important;
+}
+.card-reveal {
+    height: auto;
+    overflow-y: scroll;
+}
+.card-reveal span {
+    font-weight: 800 !important;
+    opacity: 0.8 !important;
+}
+#chosenCoinsWrapper .collection-item {
+    background-color: rgb(39,84,87) !important;
+}
+.signature-collection {
+    height: 200px;
+    overflow-y: scroll;
+}
+#exportContract, #exportSignedContract {
+    color: #f2f2f2 !important;
+}
+#copySignedContract {
+    color: rgb(38,166,154) !important;
+}
+#exportContract:hover, #exportSignedContract:hover, #copySignedContract:hover {
+    transform: scale(1.2);
+}
+.success {
+    background-color: rgb(37,84,87) !important;
+}
+.copy, #copyCoin, #copyKey {
+    cursor: pointer;
+    color: rgb(38,166,154) !important;
+}
+#toolsMenu {
+    position: absolute;
+    z-index: 9;
+    height: 100%;
+    overflow-y: scroll;
+    width: 100%;
+    padding: 5%;
+    background: rgba(31,50,65, 1.0) !important;
+    
+}
+.toolButtons .col a {
+    background-color: rgb(46,62,77) !important;
+    opacity: 0.7;
+    margin-bottom: 1%;
+}
+.toolButtons .col h2 {
+    font-weight: 300;
+    color: #fff;
+    opacity: 0.8;
+    margin: 0;
+    padding: 0;
+}
+
+#tokenCoinsWrapper ul {
+    border-top: 1px solid rgb(158,158,158) !important;
+}
+#tokenCoinsWrapper .collection-header {
+    background-color: rgb(41,58,74) !important;
+    border: none !important;
+}
+#tokenCoinsWrapper h2 {
+    margin: 0 !important;
+    padding: 0 !important;
+    color: rgb(38,166,154);
+}
+#coinsTool, #generateTool, #importTool {
+    background: rgb(41,58,74);
+}
+#coinsTool h4, #generateTool h4, #importTool h4 {
+    color: rgb(215,218,220) !important;
+    font-size: 1.0rem;
+}
+#coinsTool h2 {
+    font-size: 1.3rem;
+}
+#coinsTool .tokenCoins .collection-item div  {
+    font-size: 1.0rem;
+    font-weight: 600;
+}
+#importTool #i_clearInputs {
+    color: rgb(215,84,90) !important;
+}
+.exit {
+    color: white;
+    opacity: 0.7;
+    font-size: 1.2rem;
+}
+
+#contracts .card {
+    background: #fff !important;
+}
+#contracts .collection-header {
+    font-family: RobotoCondensed-Bold !important;
+    font-weight: 80;
+    letter-spacing: -0.02em;
+    border: none !important;
+}
+#contracts .collection-item {
+    padding: 0;
+    margin: 0;
+    margin-top: 7.5px;
+    padding-top: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+#contracts {
+    max-height: 823px;
+    height: 823px;
+    overflow-y: scroll;
+}
+#contracts #amnt {
+    font-weight: 600 !important;
+    font-size: 1.3rem;
+    color: #BD8642;
+}
+#contracts #title {
+    color: #BD8642;
+    font-weight: 500;
+}
+#contracts .card-content {
+    background-color: #fff;
+}
+#contracts .collection-item p {
+    font-weight: 100;
+}
+#contracts .card-title {
+    color: #000;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    font-family: RobotoCondensed-Bold !important;
+}
+#contracts a {
+    font-weight: 800;
+    margin: 0;
+    padding: 0;
+}
+#timestamp {
+    font-size: 1.0rem;
+    font-weight: 300 !important;
+    color: #000;
+}
+#contractType {
+    font-weight: 350 !important;
+    padding-bottom: 10px;
+    font-size: 1.3rem;
+    color: #E2761A !important;
+}
+.c-details-header {
+    margin: 0 !important;
+    opacity: 0.8;
+    border: none !important;
+    color: #000 !important;
+    font-weight: 160 !important;
+    font-size: 1.3rem;
+}
+.c-details-item {
+    background-color: rgb(59,69,97) !important;
+    font-size: 1.0rem;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 1px solid grey !important;
+    color: #f2f2f2 !important;
+    font-weight: 300 !important;
+}
