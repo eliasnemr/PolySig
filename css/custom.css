@@ -3,6 +3,19 @@
     font-family: RobotoCondensed-Bold;
     src: url("/fonts/Roboto_Condensed/RobotoCondensed-Bold.ttf");
 }
+::-webkit-scrollbar {
+    width: 0px;
+    background: transparent; /* make scrollbar transparent */
+}
+a {
+    margin: 0 !important;
+}
+#toolsMenu a {
+    margin-bottom: 5px !important;
+}
+#toolsMenu #coinsBtn:hover, #genBtn:hover, #impBtn:hover {
+    background-color: #6352b9 !important;
+}
 h1 {
     margin: 0;
     padding: 0;
@@ -387,9 +400,22 @@ input {
     padding-left: 5px;
     padding-right: 5px;
 }
-#contracts ul {
+#contracts {
     max-height: 823px;
-    overflow-y: auto;
+    height: 823px;
+    overflow-y: scroll;
+}
+#contracts #amnt {
+    font-weight: 600 !important;
+    font-size: 1.3rem;
+    color: #BD8642;
+}
+#contracts #title {
+    color: #BD8642;
+    font-weight: 500;
+}
+#contracts .card-content {
+    background-color: #fff;
 }
 #contracts .collection-item p {
     font-weight: 100;
@@ -402,8 +428,8 @@ input {
 }
 #contracts a {
     font-weight: 800;
-    color: #000;
-    opacity: 0.6;
+    margin: 0;
+    padding: 0;
 }
 #timestamp {
     font-size: 1.0rem;
@@ -415,4 +441,21 @@ input {
     padding-bottom: 10px;
     font-size: 1.3rem;
     color: #E2761A !important;
+}
+.c-details-header {
+    margin: 0 !important;
+    opacity: 0.8;
+    border: none !important;
+    color: #000 !important;
+    font-weight: 160 !important;
+    font-size: 1.3rem;
+}
+.c-details-item {
+    background-color: rgb(59,69,97) !important;
+    font-size: 1.0rem;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 1px solid grey !important;
+    color: #f2f2f2 !important;
+    font-weight: 300 !important;
 }
