@@ -19,6 +19,11 @@
     <body>
         <script>
             $(document).ready(function() {
+
+                $('.carousel').carousel({
+                    
+                });
+
                 Minima.init(function(msg){
                     if (msg.event == "connected") {
                         const TABLE = 'CREATE TABLE IF NOT EXISTS CONTRACTS (id int NOT NULL, txpow LONGVARCHAR(MAX) NOT NULL, timestamp VARCHAR(160));SELECT * FROM CONTRACTS';
@@ -47,6 +52,22 @@
                 const helpBtn = document.getElementById("helpBtn");
                 const helpDiv = document.getElementById("help");
 
+                $('#tutorialBtn').on('click', function() {
+                    $('#tutorial').addClass('hide');
+                    // set seen as true, add to Minima.file..
+                });
+                $('#tutorialClose3').on('click', function(){
+                    $('#tutorial').addClass('hide');
+                });
+                $('#tutorialClose2').on('click', function(){
+                    $('#tutorial').addClass('hide');
+                });
+                $('#tutorialClose').on('click', function(){
+                    $('#tutorial').addClass('hide');
+                });
+                $('.next').on('click', function(){
+
+                });
                 $('#helpBtn').on('click', function(){
                     setTimeout(() => {
                         menu.classList.add("scale-out");
@@ -57,6 +78,10 @@
                         $('#s-help').css("display", "block");
 
                     }, 75);
+                });
+                $('#helpBtn3').on('click', function(){
+                    $('#s-export').css('display', 'none');
+                    $('#s-tips3').css('display', 'block');
                 });
                 $('#homeBtn').on('click', function(){
                     setTimeout(() => {
@@ -139,12 +164,30 @@
 
                     }, 150);
                 });
+                $('#tipsBtn2').on('click', function(){
+                    setTimeout(() => {
+                        $('#s-keys').css("display", "none");
+                        $('#s-tips2').css("display", "block");
+
+                    }, 150);
+                });
                 $('#backBtn1').on('click', function(){
                     setTimeout(() => {
                         $('#s-tips1').css("display", "none");
                         $('#s-inputs').css("display", "block");
 
                     }, 150);
+                });
+                $('#backBtn2').on('click', function(){
+                    setTimeout(() => {
+                        $('#s-tips2').css("display", "none");
+                        $('#s-keys').css("display", "block");
+
+                    }, 150);
+                });
+                $('#backBtn3').on('click', function(){
+                    $('#s-export').css('display', 'block');
+                    $('#s-tips3').css('display', 'none');
                 });
                 $('#createBtn').on('click', function(){
 
@@ -164,20 +207,30 @@
                 $('#minusInput').on('click', function(){
                     minusInput(inp);
                 });
-                function addInput(inp) {
-
-                    var markup = "<div class='col s12 input-field'>"+
-                                 "<img class='prefix' style='width: 30px;' src='assets/slot-machine.svg'>"+
-                                 "<input type='text' id=input"+inp+">"+
-                                 "<label for=input"+inp+">CoinID #"+inp+"</label>"+
-                                 "</div>";
+                function addInput(inp, coinid) {
+                    let markup = "";
+                    if (coinid && coinid.length > 0) {
+                        markup = 
+                            '<div class="col s12 input-field">'+
+                                '<img class="prefix" style="width: 30px;" src="assets/slot-machine.svg">'+
+                                '<input type="text" id="input+'+inp+'" value="'+coinid+'" />'+
+                                '<label for="input'+inp+'">CoinID #'+inp+'</label>'+
+                            '</div>';
+                    } else {
+                        markup = 
+                            '<div class="col s12 input-field">'+
+                                '<img class="prefix" style="width: 30px;" src="assets/slot-machine.svg">'+
+                                '<input type="text" id="input+'+inp+'" />'+
+                                '<label for="input'+inp+'">CoinID #'+inp+'</label>'+
+                            '</div>';
+                    }
 
                     if($('#inputsWrapper input').length > 0){
                         $('#inputsWrapper:last-child').append(markup);
                     } else {
                         $('#inputsWrapper').append(markup);
                     }
-
+                    M.updateTextFields();
                 }
                 function minusInput() {
                     if(inp > 0) {
@@ -379,6 +432,88 @@
                         } 
                     } 
 
+                });
+                $('#c-getCoinsBtn').on('click', function() {
+
+                    let id = $('#tokenId2').val();
+                    let selected = false;
+
+                    $('#coinsModalCreate').modal({
+                        dismissible: false,
+                        opacity: 0.2,
+                        onOpenStart: function() {
+
+                            $('#aConfirmBtn').on('click', function() {
+                                selected = true;
+                            });
+
+                            if (id.length > 0) {
+                                $('#aCoinsWrapper').empty();
+                                Minima.cmd('coinsimple '+id, function(res) {
+
+                                    if (res.status && res.response.coins.length > 0) {
+
+                                        $('#coinsModalCreate #m-contractHeader').text("Available Coins");
+                                        $('#coinsModalCreate #m-contractHeader').css('color', 'rgb(44,95,107)');
+                                        if ($('#aConfirmBtn').hasClass('hide')) {
+                                            $('#aConfirmBtn').removeClass('hide');
+                                        }
+                                        $('#coinsModalCreate #m-contractType').text("Please tick the coins you would like to use...");
+
+                                        res.response.coins.forEach((coin, i) => {
+                                           
+                                            let markup = 
+                                                    '<ul class="collection with-header">'+
+                                                        '<li class="collection-item">'+
+                                                            '<div>'+
+                                                            '<label>'+
+                                                                '<input id="'+coin.coin.coinid+'" type="checkbox"/>'+
+                                                                '<span id="coin"><a>Coin</a> #'+i+'</span>'+
+                                                            '</label>'+
+                                                            '<a class="secondary-content"><span>'+
+                                                            coin.coin.amount+
+                                                            '</span></a></li>'+
+                                                            '</div>'+
+                                                    '</ul>';
+                                                    
+                                            $('#aCoinsWrapper:last-child').append(markup); 
+                                        });
+                                    } else {
+                                        $('#coinsModalCreate #m-contractHeader').css('color', 'rgb(174,74,83)');
+                                        $('#coinsModalCreate #m-contractHeader').text("No coins found for the token: ");
+                                        $('#aConfirmBtn').addClass('hide');
+                                        $('#coinsModalCreate #m-contractType').text(id);
+                                    }
+
+                                });
+                            }
+                            
+
+                        },
+                        onCloseEnd: function() {
+                            id = "";
+                            let selectedCoins = [];
+                            if (selected) {
+                                $('#aCoinsWrapper ul li input[type=checkbox]:checkbox:checked').each(function(index) {
+
+                                    addInput(inp, $(this).attr('id'));
+                                    inp++;
+                                    /**
+                                    console.log( index + ": " + $(this).attr("id"));
+                                    // Push User's selected coins
+                                    selectedCoins.push($(this).attr('id'));
+
+                                    selectedCoins.forEach(coin => {
+
+                                        addInput(inp, coin);
+                                        inp++;
+                                    });
+                                    */
+
+                                }); 
+                            }
+                        }
+                    })
                 });
                 $('#proceedBtnOutputs').on('click', function(){
                     output.keys.id = [];
@@ -597,6 +732,9 @@
                     Minima.sql("SELECT * FROM CONTRACTS", function(res){
                         
                         if (res.status && res.response.rows.length > 0) {
+                            $('#contracts > ul > .collection-header').text('Contracts');
+                            $('#contracts > ul > .collection-header').css("color", "rgb(188,192,194)");
+                            $('#contracts > ul > .collection-header').css("font-size", "1.5rem");
                             // retrieve data and fill activities
                             res.response.rows.forEach(row => {
                                 const json = JSON.parse(row.TXPOW);
@@ -610,7 +748,7 @@
                                                         '<p id="timestamp">'+ moment(parseInt(row.TIMESTAMP)).format("MMMM Do YYYY &#8212; HH:mm:ss a") +'</p>'+
                                                     '</div>'+
                                                     '<div class="card-action">'+
-                                                        '<a id="'+row.ID+'" class="viewContract" href="#">View Contract</a>'+
+                                                        '<a id="'+row.ID+'" class="viewContract">View Contract</a>'+
                                                     '</div>'+
                                                 '</div>'+
                                             '</li>';
@@ -681,7 +819,7 @@
                                                     '</ul>'+
                                                 '</div>'+
                                                 '<div class="card-action">'+
-                                                    '<a id="backToContracts" href="#">Back to Contracts</a>'+
+                                                    '<a id="backToContracts">Back to Contracts</a>'+
                                                 '</div>'+
                                                 '</div>'+
                                         '</li>';
@@ -701,7 +839,7 @@
                 /** TOOLS */
                 $('#tools').on('click', function() {
 
-                    if($('#toolsMenu').hasClass("hide")) {
+                    if ($('#toolsMenu').hasClass("hide")) {
                         $('#toolsMenu').removeClass("hide");
                         $('#tools').text("Hide Tools");
                     } else {
@@ -710,6 +848,18 @@
 
                     }
                     
+
+                });
+                $('#toolsClose').on('click', function(){
+                    
+                    if ($('#toolsMenu').hasClass("hide")) {
+                        $('#toolsMenu').removeClass("hide");
+                        $('#tools').text("Hide Tools");
+                    } else {
+                        $('#toolsMenu').addClass("hide");
+                        $('#tools').text("Tools");
+
+                    }
 
                 });
                 $('#coinsBtn').on('click', function(){
@@ -1014,7 +1164,7 @@
                 $('#impClose').on("click", function(){
                     $('#importTool').addClass('hide');
                 })
-
+                
                 setTimeout(() => {
                     menu.classList.add("scale-in");
                     createBtn.classList.add("scale-in");
@@ -1022,15 +1172,191 @@
                     helpDiv.classList.add("scale-in");
                 }, 300);
             });
-
-            
-            
         </script>
 
-        <div id="tools" class="btn-flat btn waves-effect waves-light">
+        <!-- Tutorial Overlay -->
+        <div id="tutorial" class="carousel carousel-slider center">
+            <div id="first" class="carousel-item carousel-fixed-item" href="#one">
+                <span><a id="tutorialClose" class="right exit">&#10005;</a></span>
+                <!-- helper div to fix valign issues -->
+                <div class="row" style="position: relative; top:5%">
+                    <div class="empty" style="height:35px;"></div>
+                </div>
+                <div class="row valign-wrapper">
+                    <div class="col s12 center-align">
+                        <h4>
+                            <span id="brand" style="font-size: 2.5rem;">PolySig</span>
+                        </h4>
+                    </div>
+                </div>
+                <div class="row valign-wrapper">
+                    <div class="col s12 center-align">
+                        <img style="width: 180px;" src="assets/polysig.png" alt="logo">
+                    </div>
+                </div>
+                
+                <div class="row valign-wrapper">
+                    <div class="col s12 center-align">
+                        <h4>Welcome!</h4>
+                        <p>Let's get started with a quick tutorial.</p>
+                    </div>  
+                </div>
+                <div class="row valign-wrapper">
+                    <div class="col s12 center-align">
+                        <i class="material-icons next">arrow_forward</i>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12 center-align">
+                        <span id="circle-bread">
+                            <span class="active"></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div id="second" class="carousel-item carousel-fixed-item" href="#two">
+                <span><a id="tutorialClose2" class="right exit">&#10005;</a></span>
+                <!-- helper div to fix valign issues -->
+                <div class="row" style="position: relative; top:5%">
+                    <div class="empty" style="height:35px;"></div>
+                </div>
+                <div class="row valign-wrapper">
+                    <div class="col s12 center-align">
+                        <h4>
+                            <span id="brand" style="font-size: 2.5rem;">PolySig</span>
+                        </h4>
+                    </div>
+                </div>
+                <div class="row valign-wrapper">
+                    <div class="col s12 center-align">
+                        <img style="width: 180px;" src="assets/coin.svg" alt="logo">
+                    </div>
+                </div>
+                
+                <div class="row valign-wrapper">
+                    <div class="col s12 center-align">
+                        <h4>Transactions</h4>
+                        <p>Minima transactions are made up of inputs and outputs, where <span style="font-weight: bold;">coins</span> are inputs, and the output is the <span style="font-weight: bold">script address.</span></p>
+                    </div>  
+                </div>
+                <div class="row valign-wrapper">
+                    <div class="col s12 center-align">
+                        <i class="material-icons next">arrow_forward</i>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12 center-align">
+                        <span id="circle-bread">
+                            <span></span>
+                            <span class="active"></span>
+                            <span></span>
+                            <span></span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div id="third" class="carousel-item carousel-fixed-item" href="#three">
+                <span><a id="tutorialClose3" class="right exit">&#10005;</a></span>
+                <!-- helper div to fix valign issues -->
+                <div class="row" style="position: relative; top:5%">
+                    <div class="empty" style="height:35px;"></div>
+                </div>
+                <div class="row valign-wrapper">
+                    <div class="col s12 center-align">
+                        <h4>
+                            <span id="brand" style="font-size: 2.5rem;">PolySig</span>
+                        </h4>
+                    </div>
+                </div>
+                <div class="row valign-wrapper">
+                    <div class="col s12 center-align">
+                        <img style="width: 180px;" src="assets/slot-machine.svg" alt="logo">
+                    </div>
+                </div>
+                
+                <div class="row valign-wrapper">
+                    <div class="col s12 center-align">
+                        <h4>MultiSig Contracts</h4>
+                        <p>To spend a coin, the rightful owner must sign the transaction before posting it to the network.</p>
+                        
+                        <p>
+                            Inputting these coins as input then outputting them to a newer transaction/contract, 
+                            signed by 
+                            <span style="font-weight:bold; font-style:italic">2(+)</span> out of 
+                            <span style="font-weight:bold; font-style:italic">n</span> signatures,
+                            will then make it only possible to be spent by the minimum needed signatures <span style="font-weight:bold">you</span> define in the transaction before.
+                        </p>
+                        
+
+                    </div>  
+                </div>
+                <div class="row valign-wrapper">
+                    <div class="col s12 center-align">
+                        <i class="material-icons next">arrow_forward</i>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12 center-align">
+                        <span id="circle-bread">
+                            <span></span>
+                            <span></span>
+                            <span class="active"></span>
+                            <span></span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div id="fourth" class="carousel-item carousel-fixed-item" href="#four">
+                <span><a id="tutorialClose4" class="right exit">&#10005;</a></span>
+                <!-- helper div to fix valign issues -->
+                <div class="row" style="position: relative; top:5%">
+                    <div class="empty" style="height:35px;"></div>
+                </div>
+                <div class="row valign-wrapper">
+                    <div class="col s12 center-align">
+                        <h4>
+                            <span id="brand" style="font-size: 2.5rem;">PolySig</span>
+                        </h4>
+                    </div>
+                </div>
+                <div class="row valign-wrapper">
+                    <div class="col s12 center-align">
+                        <img style="width: 180px;" src="assets/rocket-ship.svg" alt="logo">
+                    </div>
+                </div>
+                
+                <div class="row valign-wrapper">
+                    <div class="col s12 center-align">
+                        <h4>Get Started!</h4>
+                        <p>Let's create our very first contract!</p>
+                    </div>  
+                </div>
+                <div class="row valign-wrapper">
+                    <div class="col s12 center-align">
+                        <a id="tutorialBtn" class="btn-flat waves-light waves-effect">Let's go.</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12 center-align">
+                        <span id="circle-bread">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span class="active"></span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="tools" class="btn-flat btn waves-effect waves-light waves-block">
             Tools
         </div>
         <div id="toolsMenu" class="center-align hide z-depth-2">
+            <span style="z-index: 10;"><a id="toolsClose" class="right exit">&#10005;</a></span>
             <div class="row toolButtons z-depth-0">
                 <div class="col s12">
                     <h2>Tools</h2>
@@ -1050,7 +1376,7 @@
             <div id="coinsTool" class="section hide">
                 <div class="row">
                     <div class="col s12">
-                        <span><a id="coinClose" href="#" class="right exit">&#10005;</a></span>
+                        <span><a id="coinClose" class="right exit">&#10005;</a></span>
                         <div class="container">
                             <h4>Enter TokenID for the token you would like coin details for.</h4>
                             <div class="input-field">
@@ -1076,7 +1402,7 @@
             <div id="generateTool" class="section hide">
                 <div class="row">
                     <div class="col s12">
-                        <span><a id="genClose" href="#" class="right exit">&#10005;</a></span>
+                        <span><a id="genClose" class="right exit">&#10005;</a></span>
                         <div class="container">
                             <h4>Generate a new key below.</h4>
                             <div class="input-field">
@@ -1097,7 +1423,7 @@
             <div id="importTool" class="section hide">
                 <div id="importedForm" class="row">
                     <div class="col s12">
-                        <span><a id="impClose" href="#" class="right exit">&#10005;</a></span>
+                        <span><a id="impClose" class="right exit">&#10005;</a></span>
                         <div class="container">
                             <h4>Import a transaction, edit and sign and export when ready.</h4>
                         </div>
@@ -1143,12 +1469,12 @@
                 <div class="row center-align">
                     <div id="btnWrap1" class="col s6 scale-transition scale-out">
                         <a id="createBtn" class="btn-flat waves-effect waves-light">
-                            Create.
+                            Create
                         </a>
                     </div>
                     <div id="btnWrap2" class="col s6 scale-transition scale-out">
                         <div id="provideBtn" class="btn-flat waves-effect waves-light">
-                            Contracts.
+                            Contracts
                         </div>
                     </div>
                 </div>
@@ -1156,7 +1482,7 @@
                 <div class="row center-align">
                     <div id="help" class="col s12 scale-transition scale-out">
                         <div id="helpBtn" class="btn-flat waves-effect waves-light">
-                            Help.
+                            Help
                         </div>
                     </div>
                 </div>
@@ -1242,8 +1568,18 @@
                 <div class="row center-align">
                     <div id="create-menu-title" class="col s-12">
                         <h1>
-                            <i id="info" class="tiny material-icons" style="margin: 0;">info</i> Enter coin(s) ID that you want to spend.
+                            <i id="info" class="tiny material-icons" style="margin: 0;">info</i> Enter coin(s) ID of a token that you and any participants would like to spend.  You can retrieve your coins by entering the token ID below and selecting the coins you wish to use.  Ask your participant to send you theirs (click HELP for more information).
                         </h1>
+                    </div>
+                </div>
+                <div class="row center-align">
+                    <div class="col s12 input-field">
+                        <img class="prefix" style="width: 30px;" src="assets/id.svg">
+                        <input type="text" id="tokenId2">
+                        <label for="tokenId2">Enter Token ID</label>
+                    </div>
+                    <div class="col s12">
+                        <a id="c-getCoinsBtn" class="btn-flat waves-effect waves-light modal-trigger" href="#coinsModalCreate">Get Coins</a>
                     </div>
                 </div>
                 <div class="row">
@@ -1254,11 +1590,7 @@
                         <div id="minusInput" class="btn-flat small waves-effect waves-block secondary-content">&mdash; Input</div>
                         <div id="addInput" class="btn-flat small waves-effect waves-block secondary-content"><i class="left no-padding small material-icons">add</i>Input</div>
                     </div>
-                    <div class="col s12 input-field">
-                        <img class="prefix" style="width: 30px;" src="assets/id.svg">
-                        <input type="text" id="tokenId2">
-                        <label for="tokenId2">Enter Token ID</label>
-                    </div>
+                    
                     <div id="inputsWrapper" class="col s12">
                         <div class='col s12 input-field'>
                             <img class='prefix ' style='width: 30px;' src='assets/slot-machine.svg'>
@@ -1278,7 +1610,7 @@
                 <div class="row center-align">
                     <div id="tipsBtn1" class="col s12 scale-transition">
                         <div id="helpBtn" class="btn-flat waves-effect waves-light">
-                            Tips.
+                            HELP
                         </div>
                     </div>
                 </div>
@@ -1299,12 +1631,15 @@
                 </div>
                 <div class="row center-align">
                     <div id="coll-tip1_wrap" class="col s12">
-                        <ul id="coll-tip1" class="collection with-header">
+                        <ul id="coll-tip2" class="collection with-header">
                             <li class="collection-header"><h4>Tip #1 &mdash; Inputs</h4></li>
-                            <li class="collection-item">To obtain your partner's coins use these functions in your MINI terminal</li>
-                            <li class="collection-item">&mdash; <a onclick="m_exportFunction()" href=''>exportcoin</a> <span id="descr">[coinid] - export the proof of a single coin. Share it.</span></li>
-                            <li class="collection-item">&mdash; <a href=''>importcoin</a> <span id="descr">[data] - Import the proof of a coin.</span></li>
-                            <li class="collection-item">&mdash; <a href=''>keepcoin</a>  <span id="descr">[coinid] - Add a coin to the list of coins you keep track of. MUST be a recent coin in the current blocks.</span></li>
+                            <li class="collection-item">&mdash; A token's coin ID is automatically added as input to your contract. </li>
+                            <li class="collection-item">&mdash; 1 Input is equivalent to 1 Coin ID. </li>
+                            <li class="collection-item">&mdash; Use the +/- input buttons to suit that. </li>
+                            <li class="collection-item">&mdash; You and your participant(s) can use the <span style="font-weight: bold;">coins</span> tool to fetch the available coin ID of your tokens.</li>
+                            <li class="collection-item">&mdash; Once you have retrieved the coins, you can copy-paste them into the inputs. </li>
+                            <li class="collection-item">&mdash; Make sure to enter the chosen token ID (0x00 for default Minima Token) before proceeding. </li>
+                            <li class="collection-item">&mdash; To spend this input, the owner of the coin <span style="font-weight: bold;">must</span> sign this contract before you post it.</li>   
                         </ul>
                     </div>
                 </div>
@@ -1321,7 +1656,7 @@
                 <div class="row center-align">
                     <div id="create-menu-title" class="col s-12">
                         <h1>
-                            <i id="info" class="tiny material-icons" style="margin: 0;">info</i> Enter your Signee(s) public keys to generate a MultiSig Script for your <span id='brand' style="font-size: 1.3rem">PolySig.</span>
+                            <i id="info" class="tiny material-icons" style="margin: 0;">info</i> Enter this Contract's future Signee(s) public keys to generate a MultiSig Script for your <span id='brand' style="font-size: 1.3rem">PolySig.</span>
                         </h1>
                     </div>
                 </div>
@@ -1341,8 +1676,48 @@
                     </div>
                 </div>
                 <div class="row center-align">
+                    <div id="tipsBtn2" class="col s12 scale-transition">
+                        <div id="helpBtn" class="btn-flat waves-effect waves-light">
+                            HELP
+                        </div>
+                    </div>
+                </div>
+                <div class="row center-align">
                     <div class="col s12 center-align">
                         <div id="homeBtn4" class="btn-flat waves-effect waves-light" style="vertical-align: middle">
+                            <i id="forward" class="material-icons left no-padding">arrow_back</i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Help -->
+            <div id="s-tips2" class="container z-depth-1" style="display: none;">
+                <div class="row center-align no-padding">
+                    <div class="col s12">
+                        <h1 style="margin: 0; padding: 0;">
+                            <img id="icon" src="assets/polysig.png"> 
+                        </h1>
+                    </div>
+                </div>
+                <div class="row h-10 center-align no-padding">
+                    <div id="start-menu-title" class="start-menu col s12 scale-transition scale-in my-auto">
+                        <h1 style="margin:0; padding: 0;">PolySig.</h1>
+                    </div>
+                </div>
+                <div class="row center-align">
+                    <div id="coll-tip1_wrap" class="col s12">
+                        <ul id="coll-tip1" class="collection with-header">
+                            <li class="collection-header"><h4>Tip #2 &mdash; Signee(s) Public Keys</h4></li>
+                            <li class="collection-item">&mdash; You will lock this contract with these public keys.</li>
+                            <li class="collection-item">&mdash; 1 Key should be yours, the rest should be your participant(s)</li>
+                            <li class="collection-item">&mdash; A participant of this contract must provide you with their public key for future signatures so that you can unlock the contract and spend the coins.</li>
+                            <li class="collection-item">&mdash; Using <span style="font-weight: bold;">Keys</span> tool in your tool menu, you can all generate a public key. </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row center-align">
+                    <div class="col s12">
+                        <div id="backBtn2" class="btn waves-effect waves-light">
                             <i id="forward" class="material-icons left no-padding">arrow_back</i>
                         </div>
                     </div>
@@ -1353,7 +1728,7 @@
                 <div class="row center-align">
                     <div id="create-menu-title" class="col s-12">
                         <h1>
-                            <i id="info" class="tiny material-icons" style="margin: 0;">info</i> This is your Multi-Signature script.
+                            <i id="info" class="tiny material-icons" style="margin: 0;">info</i> This is how your Multi-Signature script looks like, you don't have to do anything here, proceed when ready.
                         </h1>
                     </div>
                 </div>
@@ -1382,6 +1757,13 @@
             </div>
             <!-- Export Contract -->
             <div id="s-finalize" class="container z-depth-1 center-align" style="display: none;">
+                <div class="row center-align">
+                    <div id="create-menu-title" class="col s-12">
+                        <h1>
+                            <i id="info" class="tiny material-icons" style="margin: 0;">info</i> Congratulations, you have completed the first stage.  This is how your <span id="brand" style="font-size: 22px;">PolySig</span> looks like until now.  Click the export button when you're ready to continue.
+                        </h1>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col s12">
                         <div class="card contract-card hoverable">
@@ -1480,8 +1862,49 @@
                 </div>
 
                 <div class="row center-align">
+                    <div id="tipsBtn3" class="col s12 scale-transition">
+                        <div id="helpBtn3" class="btn-flat waves-effect waves-light">
+                            HELP
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row center-align">
                     <div class="col s12 center-align">
                         <div id="homeBtn7" class="btn-flat waves-effect waves-light" style="vertical-align: middle">
+                            <i id="forward" class="material-icons left no-padding">arrow_back</i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Help -->
+            <div id="s-tips3" class="container z-depth-1" style="display: none;">
+                <div class="row center-align no-padding">
+                    <div class="col s12">
+                        <h1 style="margin: 0; padding: 0;">
+                            <img id="icon" src="assets/polysig.png"> 
+                        </h1>
+                    </div>
+                </div>
+                <div class="row h-10 center-align no-padding">
+                    <div id="start-menu-title" class="start-menu col s12 scale-transition scale-in my-auto">
+                        <h1 style="margin:0; padding: 0;">PolySig.</h1>
+                    </div>
+                </div>
+                <div class="row center-align">
+                    <div id="coll-tip1_wrap" class="col s12">
+                        <ul id="coll-tip1" class="collection with-header">
+                            <li class="collection-header"><h4>Tip #3 &mdash; Export/Import Contracts</h4></li>
+                            <li class="collection-item">&mdash; To allow your participant(s) to sign this transaction, copy/paste the exported contract and send it via whatsapp/telegram/viber.</li>
+                            <li class="collection-item">&mdash; For the participant(s) to sign they can use the <span style="font-weight: bold;">import</span> tool inside then tool menu to sign it. </li>
+                            <li class="collection-item">&mdash; Once they have signed it, they can send back the hex address to you and you can paste it inside the import input in this form.</li>
+                            <li class="collection-item">&mdash; <span style="font-weight: bold;">Note:</span> The participant(s) ONLY have to sign this contract if they are using their own coins in this contract. </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row center-align">
+                    <div class="col s12">
+                        <div id="backBtn3" class="btn waves-effect waves-light">
                             <i id="forward" class="material-icons left no-padding">arrow_back</i>
                         </div>
                     </div>
@@ -1602,9 +2025,23 @@
                 <a id="confirm" class="hide modal-action modal-close waves-effect waves-green btn-flat">Confirm</a>
         </div>
     </div>
+    <!-- Coins Modal 2 -->
+    <div id="coinsModalCreate" class="modal">
+        <div class="modal-content">
+            <h4 id="m-contractHeader">Available Coins</h4>
+            <p id="m-contractType">Please tick the coins you would like to use...</p>
+            <div id="aCoinsWrapper">
+
+            </div>
+        </div>
+        <div class="modal-footer">
+                <a class="modal-action modal-close waves-effect waves-red btn-flat">Cancel</a>
+                <a id="aConfirmBtn" class="modal-action modal-close waves-effect waves-green btn-flat">Use Selected Coins</a>
+        </div>
+    </div>
         
 
-        <script src="js/minima.js" type="text/javascript"></script>
+        <script src="js/minima.js" type="text/javascript"></sscript>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/decimal.js/9.0.0/decimal.min.js" integrity="sha512-zPQm8HS4Phjo9pUbbk+HPH3rSWu5H03NFvBpPf6D9EU2xasj0ZxhYAc/lvv/HVDWMSE1Autj19i6nZOfiVQbFQ==" crossorigin="anonymous"></script>

@@ -1,7 +1,7 @@
 /** Font Families */
 @font-face {
     font-family: RobotoCondensed-Bold;
-    src: url("/fonts/Roboto_Condensed/RobotoCondensed-Bold.ttf");
+    src: url("../fonts/Roboto_Condensed/RobotoCondensed-Bold.ttf");
 }
 ::-webkit-scrollbar {
     width: 0px;
@@ -9,6 +9,7 @@
 }
 a {
     margin: 0 !important;
+    cursor: pointer;
 }
 #toolsMenu a {
     margin-bottom: 5px !important;
@@ -57,24 +58,28 @@ input {
 #s-inputs, #s-create, #s-keys, #s-script, #s-menu {
     padding: 20px;
 }
+#c-getCoinsBtn {
+    background: #B46DE0 !important;
+    color: #fff;
+}
 #createBtn, #provideBtn, #proceedBtn, #proceedBtnInputs, #proceedBtnOutputs, #proceedBtnScript, #importContractBtn, #postedContractHomeBtn {
     background-color: rgba(255,90,91, 0.8);
     color: rgb(217,218,224);
 }
-#homeBtn, #homeBtn2, #homeBtn3, #homeBtn4, #homeBtn5, #homeBtn6, #homeBtn7, #homeBtn8, #homeBtn9, #backBtn1, #homeBtn {
+#homeBtn, #homeBtn2, #homeBtn3, #homeBtn4, #homeBtn5, #homeBtn6, #homeBtn7, #homeBtn8, #homeBtn9, #backBtn1, #backBtn2, #backBtn3, #homeBtn {
     background-color: rgba(38,166,154, 0.3);
     color: rgb(217,218,224);
     position: absolute; 
     right: 10px; 
     top:10px;
 }
-#provideBtn:hover, #createBtn:hover, #proceedBtn:hover, #proceedBtnInputs:hover, #homeBtn9:hover, #proceedBtnOutputs:hover, #proceedBtnScript:hover, #homeBtn6:hover, #homeBtn5:hover, #homeBtn8:hover, #homeBtn4:hover, #homeBtn3:hover, #homeBtn2:hover,  #homeBtn:hover, #importContractBtn:hover, #postedContractHomeBtn:hover {
+#provideBtn:hover, #createBtn:hover, #proceedBtn:hover, #proceedBtnInputs:hover, #homeBtn9:hover, #proceedBtnOutputs:hover, #proceedBtnScript:hover, #backBtn1:hover, #backBtn2:hover, #backBtn3:hover, #homeBtn6:hover, #homeBtn5:hover, #homeBtn7:hover, #homeBtn8:hover, #homeBtn4:hover, #homeBtn3:hover, #homeBtn2:hover,  #homeBtn:hover, #importContractBtn:hover, #postedContractHomeBtn:hover {
     background-color: rgba(255,90,91, 0.7);
     background: -webkit-linear-gradient(#eee, #6352b9);
     color: #000;
     transform: scale(0.8);
 }
-#helpBtn {
+#helpBtn, #helpBtn3 {
     color: rgb(217,218,223);
 }
 #start-menu-title h1, #help-menu-title h1 {
@@ -94,6 +99,8 @@ input {
     color: rgb(217,218,223) !important;
     opacity: 0.7;
     padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid gray;
 }
 #create-menu-title h1 i {
     color: rgb(180,109,225) !important;
@@ -381,6 +388,7 @@ input {
     color: white;
     opacity: 0.7;
     font-size: 1.2rem;
+    cursor: pointer;
 }
 
 #contracts .card {
@@ -458,4 +466,110 @@ input {
     border: 1px solid grey !important;
     color: #f2f2f2 !important;
     font-weight: 300 !important;
+}
+
+#coinsModalCreate {
+    background-color: rgba(25,40,47, 1.0);
+    color: rgb(218,220,207);
+}
+#aCoinsWrapper #coin {
+    font-weight: 600;
+    font-size: 1.2rem;
+    color: #fff;
+}
+#coinsModalCreate #m-contractHeader {
+    color: rgb(44,95,107);
+}
+#coinsModalCreate .modal-footer {
+    background: rgb(44,95,107) !important;
+    height: 45px;
+}
+#coinsModalCreate .modal-footer a {
+    color: rgb(218,220,207); 
+}
+#coinsModalCreate #aConfirmBtn {
+    font-weight: 800;
+}
+#aCoinsWrapper {
+    max-height: 300px;
+    overflow-y: scroll;
+}
+#aCoinsWrapper ul {
+    border: none !important;
+}
+#aCoinsWrapper li {
+    background-color: rgba(25,40,47, 0.1) !important;
+    white-space: pre-wrap;
+}
+#aCoinsWrapper .secondary-content {
+    font-weight: 400;
+    font-size: 1.0rem;
+}
+
+#toolsClose {
+    font-size: 30px;
+    padding: 2px;
+}
+
+.collection-item {
+    line-height: 2.5em !important;
+}
+
+#coll-tip2 .collection-item, #coll-tip1 .collection-item {
+    font-size: 1.2rem;
+    font-weight: 300;
+    opacity: 0.7;
+}
+
+
+
+#tutorial {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    background: rgb(135,72,184);
+background: linear-gradient(0deg, rgba(135,72,184,1) 0%, rgba(98,83,185,1) 33%, rgba(30,55,82,1) 100%, rgba(98,83,185,1) 100%);
+    z-index: 11;
+}
+#tutorial h4 {
+    color: #CCFFFE;
+    opacity: 0.7;
+    font-size: 2.0rem !important;
+}
+#tutorial a.exit {
+    font-size: 2.0rem;
+    padding: 15px;
+}
+#tutorial p {
+    font-size: 1.1rem;
+    opacity: 0.7;
+    color: #C0CCD7;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+#tutorial i.next {
+    color:#C0CCD7;
+    opacity: 0.7;
+    font-size: 2.5rem;
+    cursor: pointer;
+}
+#circle-bread > span {
+    display:inline-block;
+    width:10px;
+    height:10px;
+    background:#C0CCD7;
+    border-radius:7px;
+    border:1px solid #C0CCD7;
+    border-top:1px solid #9DA7AF;
+    margin:0 3px;
+}
+#circle-bread span.active {
+    background: #FF425B;
+    border: 1px solid #CCFFFE;
+    border-bottom: 1px solid #CCFFFE;
+}
+#tutorial #tutorialBtn {
+    background: #FF7B48;
+    color: #fff;
+    font-weight: 400; 
 }
