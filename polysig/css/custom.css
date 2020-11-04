@@ -3,6 +3,10 @@
     font-family: RobotoCondensed-Bold;
     src: url("../fonts/Roboto_Condensed/RobotoCondensed-Bold.ttf");
 }
+@font-face {
+    font-family: CF;
+    src: url("../fonts/CF.ttf");
+}
 ::-webkit-scrollbar {
     width: 0px;
     background: transparent; /* make scrollbar transparent */
@@ -17,102 +21,61 @@ a {
 #toolsMenu #coinsBtn:hover, #genBtn:hover, #impBtn:hover {
     background-color: #6352b9 !important;
 }
-h1 {
-    margin: 0;
-    padding: 0;
-}
 body {
     height: 100% !important;
     width: 100% !important;
-    background: url(../assets/bg.jpg);
+    background-color: rgb(218,220,207);
 }
 input {
     color: rgba(158,158,158, 1.0) !important;
     font-weight: 900;
 }
 #brand {
-    font-size: 2.0rem;
+    font-size: 3.0rem;
     font-weight: 130;
-    letter-spacing: -0.02em;
-    background: -webkit-linear-gradient(#eee, #765EE9);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    padding-bottom: 2px;
+    font-family: CF;
+    cursor: default;
 }
-#mainMenu {
-    margin: 10px;
-}
-#inputsWrapper, #keysWrapper {
-    height:300px;
-    max-height: 300px;
-    overflow-y: scroll;
-    border: 3px solid rgb(180,109,224);
-    padding: 20px;
-}
-#signee {
-    border: 3px solid rgb(180,109,224);
-}
-#s-menu, #s-help, #s-create, #s-inputs, #s-keys, #s-script, #s-finalize, #s-export, #s-imported-post, #s-posted-details {
-    background: rgba(180,166,238, 0.1);
-}
-#s-inputs, #s-create, #s-keys, #s-script, #s-menu {
-    padding: 20px;
-}
-#c-getCoinsBtn {
-    background: #B46DE0 !important;
-    color: #fff;
-}
-#createBtn, #provideBtn, #proceedBtn, #proceedBtnInputs, #proceedBtnOutputs, #proceedBtnScript, #importContractBtn, #postedContractHomeBtn {
-    background-color: rgba(255,90,91, 0.8);
+
+.polyBtn {
+    background-color: rgb(26,28,45);
     color: rgb(217,218,224);
 }
-#homeBtn, #homeBtn2, #homeBtn3, #homeBtn4, #homeBtn5, #homeBtn6, #homeBtn7, #homeBtn8, #homeBtn9, #backBtn1, #backBtn2, #backBtn3, #homeBtn {
-    background-color: rgba(38,166,154, 0.3);
-    color: rgb(217,218,224);
+.polyBtn:hover {
+    color: rgba(255, 255, 255, 0.7);
+    transform: scale(1.01);
+}
+.backBtn {
+    color: #000;
     position: absolute; 
     right: 10px; 
     top:10px;
 }
-#provideBtn:hover, #createBtn:hover, #proceedBtn:hover, #proceedBtnInputs:hover, #homeBtn9:hover, #proceedBtnOutputs:hover, #proceedBtnScript:hover, #backBtn1:hover, #backBtn2:hover, #backBtn3:hover, #homeBtn6:hover, #homeBtn5:hover, #homeBtn7:hover, #homeBtn8:hover, #homeBtn4:hover, #homeBtn3:hover, #homeBtn2:hover,  #homeBtn:hover, #importContractBtn:hover, #postedContractHomeBtn:hover {
-    background-color: rgba(255,90,91, 0.7);
-    background: -webkit-linear-gradient(#eee, #6352b9);
-    color: #000;
-    transform: scale(0.8);
-}
-#helpBtn, #helpBtn3 {
-    color: rgb(217,218,223);
-}
-#start-menu-title h1, #help-menu-title h1 {
+.backBtn i {
     font-size: 2.0rem;
-    font-weight: 130;
+}
+.backBtn:hover {
+    transform: scale(0.9);
+}
+#s-menu, #s-help, #s-create, #s-inputs {
+    background: transparent;
+}
+#start-menu-title h1 {
+    font-size: 2.0rem;
+    font-weight: 700;
     letter-spacing: -0.02em;
-    background: -webkit-linear-gradient(#eee, #765EE9);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
     padding-bottom: 2px;
 }
 #create-menu-title h1 {
-    font-size: 1.4rem;
-    font-weight: 130;
-    letter-spacing: -0.02em;
+    font-family: RobotoCondensed-Bold !important;
+    font-size: 1.6rem;
     padding-bottom: 2px;
-    color: rgb(217,218,223) !important;
-    opacity: 0.7;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid gray;
+    color: #000 !important;
 }
 #create-menu-title h1 i {
-    color: rgb(180,109,225) !important;
-    
+    color: #313939 !important;
+    font-size: 1.35rem;
 }
-#start-menu-title p, #keysInformation {
-    font-size: 1.5rem;
-    position: relative;
-    font-weight: 130;
-    opacity: 0.6;
-    color: #fff;
-} 
 #titles {
     color: rgb(217,218,224) !important;
     font-size: 1.7rem;
@@ -121,33 +84,10 @@ input {
     border-bottom: 1px solid rgb(180,109,225);
     margin-bottom: 10px;
 }
-#icon {
-    width: 35px;
-    position: relative;
-    z-index:-1;
-}
+
 #descr {
     font-size: 1.0rem;
     opacity: 0.7;
-}
-.collection-header h4 {
-    font-size: 1.7rem;
-    font-weight: 500;
-    color: #f2f2f2;
-}
-.collection.with-header .collection-header {
-    color: #fff;
-    font-weight: 180;
-    background-color:rgba(201, 198, 229, 0.2) !important;
-    border-bottom: 1px solid rgb(248,246,254) !important;
-}
-.collection-item {
-    color: #fff;
-    font-weight: 130;
-    font-size: 1.5rem;
-    opacity: 0.7;
-    background-color: rgba(159,143,239, 0.3) !important;
-    border-bottom: 1px solid grey !important;
 }
 #forward {
     margin:0;
@@ -196,23 +136,43 @@ input {
 
 }
 #scriptWrapper {
-    background: rgba(90,76,94, 0.2) !important;
+    background: transparent !important;
 }
 #scriptWrapper p {
-    font-size: 1.0rem;
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: rgb(65,67,55);
     word-wrap: break-word;
 }
-.script-body {
-    background: rgba(180,166,238, 0.1) !important;
+#scriptWrapper a {
+    background-color: rgb(111,170,84);
+    opacity: 1.0;
+    font-size: 1.0rem;
+    font-weight: 600;
+    color: #DADCCF;
 }
-.script-body #script {
-    font-size: 1.0rem !important;
+#scriptWrapper input {
+    color: rgb(65,67,55) !important;
 }
-.script-body #proof {
-    font-size: 1.2rem !important;
-    font-weight: 400;
-    color: rgb(218,220,207);
+#scriptWrapper i {
+    color: #F65A35;
+    font-size: 3.0rem;
 }
+
+#toSendWrapper {
+    border: none !important;
+}
+#toSendWrapper {
+    background: transparent !important;
+}
+#toSendWrapper h4 {
+    color: #878787 !important;
+}
+#toSendWrapper p {
+    color: #878787 !important;
+    font-size: 1.5rem;
+}
+
 #return {
     color: rgb(86,138,119);
     font-weight: 600;
@@ -220,34 +180,108 @@ input {
 #signee {
     padding: 15px;
 }
-
 #tools {
     z-index: 10;
     position: absolute;
-    top: 15px;
+    top: 12px;
     left: 5px;
-    color: #fff;
-    opacity: 0.3;
+    font-weight: 800;
+    color: #000;
 }
 #tools:hover {
     opacity: 0.7;
     background-color: rgba(138,121,139, 0.7);
 }
+
 .contract-card {
-    background: rgba(180,166,238, 0.1) !important;
     border: none !important;
-   
+    background-color: rgb(218,220,207);
+}
+.contract-card .collection .collection-item {
+    background-color: rgb(218,220,207);
+}
+.contract-card .card-title {
+    background-color:  rgb(198,162,156)!important;
+    z-index: -10;
+    color: #fff !important;
+    font-family: CF !important;
+    letter-spacing: -0.02em;
+}
+.contract-card .collection {
+    border: none !important;
+    overflow-y: scroll !important;
+}
+.contract-card .collection .collection-item {
+    overflow-y: auto;
+    border-bottom: 1px solid gray;
+}
+.contract-card .collection .collection-item div {
+    font-size: 1.1rem;
+    font-weight: 800;
+    word-break: break-all;
+    white-space: normal;
+    float: left;
+    text-transform: uppercase;
+}
+.contract-card .collection .collection-item a {
+    word-break: break-all !important;
+    white-space: normal !important;
+}
+.contract-card .collection .collection-item #users {
+    font-size: 1.0rem;
+    color: rgb(128,142,153);
+    font-weight: 600;
+}
+.contract-card .collection-keys {
+    overflow-y: auto;
+    max-height: 300px;
+    height: 300px;
+}
+.contract-card .card-image img {
+    height: 80px;
 }
 .contract-header {
     font-family: RobotoCondensed-Bold !important;
     font-weight: 80;
     letter-spacing: -0.02em;
     font-size: 1.5rem;
-    background: rgba(180,166,238, 0.1) !important;
-    color: rgb(217,218,223) !important;
+    background: transparent !important;
+    color: #000 !important;
 }
-.contract-item {
-    white-space: pre-line;
+.contract-card .card-action a {
+    color: rgb(174,71,77) !important;
+    font-weight: 600;
+}
+.contract-card .card-action a:hover {
+    transform: scale(1.1);
+    opacity: 0.7;
+}
+.contract-item a {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+.contract-amnt span {
+    float: left;
+    color: rgb(174,71,77);
+    font-weight: 700;
+}
+.contract-amnt img {
+    width: 40px !important;
+    float: left;
+    padding-right: 3px;
+}
+.contract-amnt h4 {
+    font-family: RobotoCondensed-Bold !important;
+    font-size: 2.5rem;
+    color: #329A4E;
+    margin: 0;
+    padding: 0;
+}
+.contract-amnt p {
+    font-size: 1.0rem;
+    color: #000;
+    opacity: 0.7;
+    border-bottom: 3px solid rgb(174,71,77);
 }
 .contract-item h4 {
     font-weight: 800;
@@ -269,27 +303,19 @@ input {
     position: absolute;
     right: 5px;
     color: rgb(9,191,144) !important;
-    
 }
-.contract-item i:hover {
-    transform: scale(1.2);
-    cursor: pointer;
-}
-
 .card-content {
     opacity: .6;
     z-index: -10;
     font-size: 32px;
 }
-
-
 /** Modals */
 #modalCreate {
-    background-color: rgba(25,40,47, 0.8);
+    background-color: rgba(25,40,47, 1.0);
     color: rgb(218,220,207);
 }
 #modalCreate .modal-footer {
-    background-color: rgba(25,40,47, 0.8) !important;
+    background-color: rgba(25,40,47, 1.0) !important;
 }
 #modalCreate .modal-footer a {
     color: rgb(218,220,207); 
@@ -392,12 +418,14 @@ input {
 }
 
 #contracts .card {
-    background: #fff !important;
+    background: transparent!important;
 }
 #contracts .collection-header {
+    background: transparent !important;
     font-family: RobotoCondensed-Bold !important;
-    font-weight: 80;
-    letter-spacing: -0.02em;
+    color: #000 !important;
+    font-weight: 500;
+    letter-spacing: 0.05em;
     border: none !important;
 }
 #contracts .collection-item {
@@ -511,24 +539,30 @@ input {
     padding: 2px;
 }
 
-.collection-item {
-    line-height: 2.5em !important;
+#participants ul {
+    max-height: 700px;
+    overflow-y: auto;
 }
-
-#coll-tip2 .collection-item, #coll-tip1 .collection-item {
-    font-size: 1.2rem;
-    font-weight: 300;
-    opacity: 0.7;
+#participants .card-image i {
+    font-size: 3.0rem;
+    color: #DADCCF;
 }
-
-
+.user-item .card {
+    background-color: #F5F5F5 !important;
+}
+.user-item {
+    background-color: transparent !important;
+}
+hr {
+    border-color: rgba(138,121,139, 0.7);
+}
 
 #tutorial {
     height: 100%;
     width: 100%;
     position: absolute;
     background: rgb(135,72,184);
-background: linear-gradient(0deg, rgba(135,72,184,1) 0%, rgba(98,83,185,1) 33%, rgba(30,55,82,1) 100%, rgba(98,83,185,1) 100%);
+    background: linear-gradient(0deg, rgba(135,72,184,1) 0%, rgba(98,83,185,1) 33%, rgba(30,55,82,1) 100%, rgba(98,83,185,1) 100%);
     z-index: 11;
 }
 #tutorial h4 {
@@ -573,3 +607,6 @@ background: linear-gradient(0deg, rgba(135,72,184,1) 0%, rgba(98,83,185,1) 33%, 
     color: #fff;
     font-weight: 400; 
 }
+
+
+
