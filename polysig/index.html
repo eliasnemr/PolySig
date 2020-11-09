@@ -20,7 +20,7 @@
         <script>
             $(document).ready(function() {
 
-                //$('.carousel').carousel();
+                $('.collapsible').collapsible();
 
                 Minima.init(function(msg){
                     if (msg.event == "connected") {
@@ -40,7 +40,7 @@
 
                 let txnID = "";
                 let inp = 1;
-                let input = {id: "", signees: "", min: "", users: [], keys: [], inputs: [], total: 0}; 
+                let input = {id: "", signees: "", min: "", users: [], keys: [], inputs: [], total: 0, script: "", proof: ""}; 
                 let output = {amount: 0, address: "", tokenid: "", keys: { id: [], proof: ""} };
 
                 const menu = document.getElementById("start-menu-title");
@@ -251,6 +251,11 @@
                     }); 
                 });
                 $('#proceedBtnStage1').on('click', function(){
+                    
+                    if ($('#packageHelper').hasClass('hide')){
+                        $('#packageHelper').removeClass('hide');
+                    }
+                    
                     // reset
                     input.users = [];
                     input.keys = [];
@@ -265,8 +270,10 @@
 
                     $('#participants ul').find('li input[type="text"]').each(function() {
                         if($(this)[0].id.substring(0,4) == "name"){
+                            // SAVE USERS
                             input.users.push($(this)[0].value);
                         } else if($(this)[0].id.substring(0,3) == "key") {
+                            // SAVE KEYS
                             input.keys.push($(this)[0].value);
                         }
                         
@@ -300,7 +307,8 @@
                                         }
                                     });
                                     script = "RETURN MULTISIG("+input.min+" "+allKeys+")";
-                                    
+                                    // SAVE SCRIPT 
+                                    input.script = script;
                                     Minima.cmd('newscript "'+script+'"', function(res){
                                         if(res.status) {
                                             const markup = 
@@ -319,9 +327,8 @@
                                             $('#copyPackageWrapper').removeClass('hide');
                                            
                                             $('#multiSigScript').append(markup);
-                                            output.proof = res.response.address.hexaddress;
-                                            let json = JSON.stringify(output);
-                                            Minima.file.save(json, "output.txt", function(){});
+
+                                            input.proof = res.response.address.hexaddress;
                                         }
                                     });
                                     
@@ -336,7 +343,6 @@
 
                 });
                 $(document).on('click', "#copyAddress", function(){
-                    input.id = 0;
                     // Create random ID
                     const id = Math.floor(Math.random()*1000000000);
                     input.id = id;
@@ -348,6 +354,9 @@
                         keys: [],
                         users: [],
                         hexaddress: "",
+                        script: "",
+                        min: 0,
+                        signees: ""
                     }
 
                     // set the json package.
@@ -355,7 +364,10 @@
                     data.message = "You are about to save a new script address in your script address";
                     data.keys = input.keys;
                     data.users = input.users;
-                    data.hexaddress = output.proof;
+                    data.script = input.script;
+                    data.min = input.min;
+                    data.signees = input.signees;
+                    data.hexaddress = input.proof;
                     // stringify the json package.
                     data = JSON.stringify(data);
                     // convert to base64.
@@ -365,6 +377,7 @@
                     // Display Script
                     $('#multiSigScript > :last-child').remove();
 
+                    $('#packageHelper').addClass('hide');
                     $('#copyPackageWrapper').addClass('hide');
                     $('#continueBtnWrapper').removeClass('hide');
 
@@ -503,7 +516,7 @@
                                             let keys = JSON.stringify(input.keys);
                                             let date = Date.now().toString();
                                             let type = "This is a "+input.min+"/"+input.signees+" MultiSig Contract";
-                                            Minima.sql(INSERT+input.id+"', '"+output.proof+"', '"+date+"', '"+keys+"', '"+users+"', '"+type+"')", function(response){
+                                            Minima.sql(INSERT+input.id+"', '"+input.proof+"', '"+date+"', '"+keys+"', '"+users+"', '"+type+"')", function(response){
                                                 if (response.status) {
                                                     Minima.cmd('txndelete '+input.id, function(){});
                                                 }
@@ -1060,17 +1073,15 @@
                                     onCloseEnd: function() {
                                         
                                         if(isConfirmed) {
-                                            Minima.cmd('newscript '+data.hexaddress, function(res){
+                                            Minima.cmd('newscript "'+data.script+'"', function(res){
                                                 if (res.status) {
 
-                                                    let users = JSON.stringify(input.users);
-                                                    let keys = JSON.stringify(input.keys);
+                                                    let users = JSON.stringify(data.users);
+                                                    let keys = JSON.stringify(data.keys);
                                                     let date = Date.now().toString();
-                                                    let type = "This is a "+input.min+"/"+input.signees+" MultiSig Contract";
+                                                    let type = "This is a "+data.min+"/"+data.signees+" MultiSig Contract";
 
                                                     const INSERT = "INSERT INTO CONTRACTS VALUES ('";
-                                                    console.log(data);
-                                                    console.log(data.id);
                                                     Minima.sql(INSERT+data.id+"', '"+data.hexaddress+"', '"+date+"', '"+keys+"', '"+users+"', '"+type+"')", function(response){
                                                         console.log(response);
                                                         if (response.status) {
@@ -1468,6 +1479,18 @@
                     </div>
                 </div>
 
+                <div id="packageHelper" class="row">
+                    <div class="col s12">
+                        <ul class="collapsible z-depth-0">
+                            <li>
+                              <div class="collapsible-header">Help</div>
+                              <div class="collapsible-body"><span>TOOLS -> Import Data Package</span></div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+
                 <div class="row center-align">
                     <div class="col s12 center-align">
                         <a id="homeBtn4" class="btn-flat waves-effect waves-light backBtn" style="vertical-align: middle">
@@ -1583,7 +1606,7 @@
     </div>
     <!-- dd-edit -->
     <ul id='dd-edit' class='dropdown-content'>
-        <li id="deleteForeverBtn"><a href="#!"><i class="material-icons">delete_forever</i>Toggle</a></li>
+        <li id="deleteForeverBtn"><div><i class="material-icons">delete_forever</i>Toggle</div></li>
     </ul>
     <!-- dd-edit-deleteModal -->
     <div id="dd-editModal" class="modal">
@@ -1592,8 +1615,8 @@
             <p></p>
         </div>
         <div class="modal-footer">
-            <a class="modal-action modal-close waves-effect waves-red btn-flat ">Cancel</a>
-            <a id="confirm" class="modal-action modal-close waves-effect waves-green btn-flat">Confirm</a>
+            <div class="modal-action modal-close waves-effect waves-red btn-flat ">Cancel</div>
+            <div id="confirm" class="modal-action modal-close waves-effect waves-green btn-flat">Confirm</div>
         </div>
     </div>
 

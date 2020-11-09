@@ -713,3 +713,18 @@ hr {
 .dropdown-content li:hover div {
     color: rgb(26,29,45) !important;
 }
+
+.collapsible .collapsible-header {
+    display: block;
+    height: 4em;
+    font-weight: 800;
+    font-size: 1.2rem;
+    font-family: RobotoCondensed-Bold !important;
+    color:  rgb(26,29,45) !important; 
+    background-color:rgb(218,220,207) !important;
+}
+.collapsible .collapsible-body {
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+}
