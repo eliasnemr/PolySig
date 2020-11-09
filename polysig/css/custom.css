@@ -452,10 +452,10 @@ input {
 #toScriptModal .modal-footer, #toSignModal .modal-footer {
     background-color: rgb(26,28,45);
 }
-#toScriptModal .modal-footer a, #toSignModal .modal-footer a {
+#toScriptModal .modal-footer div, #toSignModal .modal-footer div {
     color: rgb(218,220,207);
 }
-#toScriptModal .modal-footer a:hover, #toSignModal .modal-footer a:hover {
+#toScriptModal .modal-footer div:hover, #toSignModal .modal-footer div:hover {
     opacity: 0.6;
     transform: scale(1.1);
 }
@@ -707,9 +707,9 @@ hr {
     background-color: rgb(26,29,45);
     color: rgb(185,185,190) !important;
 }
-.dropdown-content li a {
+.dropdown-content li div {
     color: rgb(218,220,207) !important;
 }
-.dropdown-content li:hover a {
+.dropdown-content li:hover div {
     color: rgb(26,29,45) !important;
 }

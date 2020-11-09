@@ -172,6 +172,9 @@
                 }
                 
                 $('#proceedBtn').on('click', function(){
+                    // reset
+                    input.signees = 0;
+                    input.min = 0;
 
                     $('#participants > ul:last-child').empty();
                     let confirmed = false;
@@ -248,7 +251,10 @@
                     }); 
                 });
                 $('#proceedBtnStage1').on('click', function(){
-                    
+                    // reset
+                    input.users = [];
+                    input.keys = [];
+
                     if(!$('#copyPackageWrapper').hasClass('hide')) {
                         $('#copyPackageWrapper').addClass('hide');
                     }
@@ -330,7 +336,7 @@
 
                 });
                 $(document).on('click', "#copyAddress", function(){
-                                 
+                    input.id = 0;
                     // Create random ID
                     const id = Math.floor(Math.random()*1000000000);
                     input.id = id;
@@ -414,15 +420,16 @@
                         '<li class="collection-item contract-item"><div>Signee #'+i+'&mdash;'+input.users[i]+'</div><a id="users" class="secondary-content">'+key+'</a></li>';
                     });
 
-                    // Change title
-                    const title = '<i id="info" class="tiny material-icons" style="margin: 0;">info</i> This is your contract.  Post when ready!';
-                                
-                    $('#s-stage1-2 #create-menu-title h1').html(title);
+                    
                               
                     // Create Transaction...
                     Minima.cmd(txn, function(res) {
                         // check all responses..
                         if (Minima.util.checkAllResponses(res)) {
+                            // Change title
+                            const title = '<i id="info" class="tiny material-icons" style="margin: 0;">info</i> This is your contract.  Post when ready!';            
+                            $('#s-stage1-2 #create-menu-title h1').html(title);
+
                             // show Btn
                             $('#postContractWrapper').removeClass('hide');
                             // hide this btn
@@ -523,7 +530,7 @@
                     Minima.sql("SELECT * FROM CONTRACTS", function(res){
                         //console.log(res);
                         if (res.status && res.response.rows.length > 0) {
-                            $('#contracts > ul > .collection-header').html('Contracts <a id="dd-editBtn" style="float:right;" class="dropdown-trigger btn-flat" href="#!" data-target="dd-edit">Edit</a>');
+                            $('#contracts > ul > .collection-header').html('Contracts <div id="dd-editBtn" style="float:right;" class="dropdown-trigger btn-flat" data-target="dd-edit">Edit</div>');
                             $('#contracts > ul > .collection-header').css("color", "rgb(188,192,194)");
                             $('#contracts > ul > .collection-header').css("font-size", "1.5rem");
                             // retrieve data and fill activities
@@ -895,6 +902,9 @@
                     $('#contract').removeClass("hide");
                     $('#contract-details').addClass("hide");
                 })
+                
+                
+                
                 /** TOOLS */
                 $('#tools').on('click', function() {
 
@@ -920,22 +930,7 @@
                     
                     
                 });
-                $('#coinsBtn').on('click', function(){
-                    
-                    if($('#coinsTool').hasClass("hide") && !$('#importTool').hasClass('hide')) {
-                        $('#importTool').addClass('hide');
-                        $('#coinsTool').removeClass("hide");
-                    } else if($('#coinsTool').hasClass("hide") && !$('#generateTool').hasClass('hide')) {
-                        $('#generateTool').addClass('hide');
-                        $('#coinsTool').removeClass("hide");
-                    } else {
-                        $('#coinsTool').removeClass("hide");
-                    }
 
-                });
-                $(document).on('click', '#coinClose', function() {
-                    $('#coinsTool').addClass("hide");
-                })
                 $(document).on('click', '#copyCoin', function(){
                     
                     var id = $('#pubKey').val();
@@ -955,52 +950,10 @@
 
                     }
 
+                    return false;
+
                     
                 });
-                $('#getCoins').on('click', function() {
-
-                    $('.tokenCoins').empty();
-
-                    var tokenid = $('#tokenID').val();
-                    if(tokenid.length == 0){
-                        return M.toast({html:"Your input field's empty!"});
-                    }
-                    Minima.cmd("coinsimple "+ tokenid, function(res){
-                        
-                        if (res.status) {
-                            const len = res.response.coins.length;
-                            if (len && len > 1){
-                                $('#tokenCoinsWrapper .collection-header h2').text(res.response.coins.length + " coins found!");
-                            } else if (len && len == 1) {
-                                $('#tokenCoinsWrapper .collection-header h2').text(res.response.coins.length + " coin found!");
-                            } else {
-                                $('#tokenCoinsWrapper .collection-header h2').text("No coins found for this token.");
-                            }
-
-                            res.response.coins.forEach(c => {
-
-                                if (c.coin.amount > 0) {
-
-                                    let markup = "<li class='collection-item'><div>"+
-                                        c.coin.coinid.substring(0, 10)+"..."+c.coin.coinid.substring(c.coin.coinid.length-10, c.coin.coinid.length)+
-                                        "<span id='copyCoin' class='valign left'><span style='display:none;'>"+c.coin.coinid+"</span><i class='material-icons'>content_copy</i></span>"+
-                                        "<a class='secondary-content right'>"+c.coin.amount+"</a></div></li>";
-                                    
-                                    $('.tokenCoins').append(markup);                          
-                                }
-
-
-                            });
-
-
-                        }
-
-                    });
-
-                    $("#tokenCoinsWrapper").removeClass("hide");
-
-                });
-                
                 $('#genBtn').on('click', function(){
                     
                     if ($('#generateTool').hasClass('hide') && !$('#importDataTool').hasClass('hide')) {
@@ -1010,11 +963,7 @@
                         $('#generateTool').removeClass('hide');
                     }
                 });
-                $('#copyKey').on('click', function(){
 
-                    copyText("pubKey");
-
-                });
                 $('#newKey').on('click', function(){
 
                     Minima.cmd('keys new', function(res){
@@ -1066,8 +1015,8 @@
                                     '</div>'+
                                     '<div class="row">'+
                                         '<div class="col s12">'+
-                                            '<a id="importPkgBtn" class="modal-trigger btn-flat waves-effect waves-light waves-block polyBtn" href="#toScriptModal">Import Data Package</a>'+
-                                            '<a id="clearImport" class="btn-flat waves-effect waves-light waves-block">Clear</a>'+
+                                            '<div id="importPkgBtn" class="modal-trigger btn-flat waves-effect waves-light waves-block polyBtn" data-target="toScriptModal">Import Data Package</div>'+
+                                            '<div id="clearImport" class="btn-flat waves-effect waves-light waves-block">Clear</div>'+
                                         '</div>'+
                                     '</div>';
                         // Add input form
@@ -1079,7 +1028,7 @@
                     $('#importDataTool').empty();
                 });
                 $(document).on('click', '#importPkgBtn', function(){
-
+                    
                     let data = $('#importData').val();
                     let isConfirmed = false;
                     // check transaction type
@@ -1393,7 +1342,7 @@
                 </div>
                 <div class="row">
                     <div class="col s12">
-                        <a href="#" id="copyCoin" class="btn-flat waves-effect waves-block waves-light polyBtn">Copy</a>
+                        <a id="copyCoin" class="btn-flat waves-effect waves-block waves-light polyBtn">Copy</a>
                     </div>
                 </div>
             </div>
@@ -1590,8 +1539,8 @@
             </div>
         </div>
         <div class="modal-footer">
-            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cancel</a>
-            <a id="impConfirmBtn" class="modal-close waves-effect waves-green btn-flat">Add</a>
+            <div class="modal-close waves-effect waves-green btn-flat">Cancel</div>
+            <div id="impConfirmBtn" class="modal-close waves-effect waves-green btn-flat">Add</div>
         </div>
     </div>
     <!-- Modal For toSign -->
@@ -1628,8 +1577,8 @@
             </div>
         </div>
         <div class="modal-footer">
-            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cancel</a>
-            <a id="impSignBtn" class="modal-close waves-effect waves-green btn-flat">Sign</a>
+            <div class="modal-close waves-effect waves-green btn-flat">Cancel</div>
+            <div id="impSignBtn" class="modal-close waves-effect waves-green btn-flat">Sign</div>
         </div>
     </div>
     <!-- dd-edit -->
