@@ -25,7 +25,7 @@ a {
 #toolsMenu {
     position: fixed;
     bottom: -1000px;
-    z-index: 99999;
+    z-index: 10;
     width: 100%;
     height: 90%;
     overflow-y: scroll;
@@ -39,21 +39,22 @@ a {
 #toolsMenu a {
     margin-bottom: 5px !important;
 }
+#genBtn, #importDataBtn {
+    background-color: rgba(42, 59, 74) !important;
+    color: #fff;
+    font-weight: 800;
+    opacity: 0.7;
+}
+#toolsMenu #genBtn:hover, #importDataBtn:hover {
+    opacity: 0.7;
+    transform: scale(1.01);
+}
 .toolButtons .col h2 {
     font-weight: 300;
     color: #fff;
     opacity: 0.8;
     margin: 0;
     padding: 0;
-}
-#coinsBtn, #genBtn, #impBtn {
-    background-color: rgba(42, 59, 74) !important;
-    color: #fff;
-    font-weight: 800;
-    opacity: 0.7;
-}
-#toolsMenu #coinsBtn:hover, #genBtn:hover, #impBtn:hover {
-    background-color: #6352b9 !important;
 }
 body {
     height: 100% !important;
@@ -235,7 +236,7 @@ input {
     background-color: rgb(218,220,207);
 }
 .contract-card .card-title {
-    background-color:  rgb(198,162,156)!important;
+    background-color:rgb(198,162,156)!important;
     z-index: -10;
     color: #fff !important;
     font-family: CF !important;
@@ -344,15 +345,18 @@ input {
     font-size: 32px;
 }
 /** Modals */
-#modalCreate {
+#modalCreate, #dd-editModal {
     background-color: rgba(25,40,47, 1.0);
     color: rgb(218,220,207);
 }
-#modalCreate .modal-footer {
+#modalCreate .modal-footer, #dd-editModal .modal-footer {
     background-color: rgba(25,40,47, 1.0) !important;
 }
-#modalCreate .modal-footer a {
+#modalCreate .modal-footer a, #dd-editModal .modal-footer a {
     color: rgb(218,220,207); 
+}
+#importedDataModal {
+    z-index: 99999;
 }
 .toast {
     color: rgb(218,220,207);
@@ -388,7 +392,7 @@ input {
 .success {
     background-color: rgb(37,84,87) !important;
 }
-.copy, #copyCoin, #copyKey {
+.copy, #copyKey {
     cursor: pointer;
     color: rgb(38,166,154) !important;
 }
@@ -405,29 +409,98 @@ input {
     padding: 0 !important;
     color: rgb(38,166,154);
 }
-#coinsTool, #generateTool, #importTool {
+#generateTool, #importDataTool {
     background: rgb(41,58,74);
 }
-#coinsTool h4, #generateTool h4, #importTool h4 {
+#importDataTool #clearImport {
+    color: #BB2422 !important;
+}
+#generateTool h4, #importDataTool h4 {
     color: rgb(215,218,220) !important;
     font-size: 1.0rem;
+    font-weight: 500;
+    float: left;
+    padding-top: 0;
 }
-#coinsTool h2 {
-    font-size: 1.3rem;
+#generateTool .exit, #importDataTool .exit {
+    margin-right: 2% !important;
+    font-weight: 700 !important;
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: rgb(217,220,207);
+    opacity: 0.7;
 }
-#coinsTool .tokenCoins .collection-item div  {
-    font-size: 1.0rem;
+#generateTool .exitWrapper {
+    margin: 0;
+}
+#generateTool #newKey {
+    background-color: rgb(134, 45, 89);
+}
+#toScriptModal, #toSignModal {
+    z-index: 99999;
+    background-color: rgb(218,220,207);
+}
+#toScriptModal .modal-content .collection-header, #toSignModal .modal-content .collection-header {
+    font-size: 1.3rem !important;
     font-weight: 600;
 }
-#importTool #i_clearInputs {
-    color: rgb(215,84,90) !important;
+#toScriptModal .modal-content .collection-item, #toSignModal .modal-content .collection-item {
+    font-size: 1.0rem !important;
+    font-weight: 600;
+    white-space: pre-wrap;
+}
+#toScriptModal .modal-footer, #toSignModal .modal-footer {
+    background-color: rgb(26,28,45);
+}
+#toScriptModal .modal-footer a, #toSignModal .modal-footer a {
+    color: rgb(218,220,207);
+}
+#toScriptModal .modal-footer a:hover, #toSignModal .modal-footer a:hover {
+    opacity: 0.6;
+    transform: scale(1.1);
 }
 .exit {
-    color: white;
+    color: rgb(217,220,207);
     opacity: 0.7;
     font-size: 1.2rem;
     cursor: pointer;
 }
+
+.contract .details, .contract-spend, .contract-exp, .contract-imp {
+    background-color: rgb(239,241,235);
+}
+.contract .details .collection {
+    border: none !important;
+}
+.contract .details .collection-item div {
+    float: left !important;
+    font-size: 1.2rem;
+    color: rgb(86,88,82);
+    font-weight: 700;
+}
+.contract .details .collection-item a {
+    font-size: 1.0rem;
+    float: right;
+}
+.contract .details .collection-item {
+    position: relative !important;
+    padding-bottom: 20px !important;
+    padding-top: 0px !important;
+}
+.contract .card-content .backContract {
+    float: right !important;
+    color: #000 !important;
+    cursor: pointer;
+}
+.contract .card-content .backContract i {
+    font-size: 2.5rem;
+    color: #000;
+    font-weight: 800;
+}
+.postTransaction {
+    font-size: 1.5rem;
+}
+
 
 #contracts .card {
     background: transparent!important;
@@ -569,7 +642,7 @@ input {
     background-color: transparent !important;
 }
 hr {
-    border-color: rgba(138,121,139, 0.7);
+    border-color: rgba(138,121,139, 0.7) !important;
 }
 
 #tutorial {
@@ -621,4 +694,22 @@ hr {
     background: #FF7B48;
     color: #fff;
     font-weight: 400; 
+}
+
+
+
+.hideDeleteForever #deleteForever {
+    display: none !important;
+}
+.dropdown-content li {
+    text-align: center;
+    font-family: RobotoCondensed-Bold !important;
+    background-color: rgb(26,29,45);
+    color: rgb(185,185,190) !important;
+}
+.dropdown-content li a {
+    color: rgb(218,220,207) !important;
+}
+.dropdown-content li:hover a {
+    color: rgb(26,29,45) !important;
 }
