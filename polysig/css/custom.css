@@ -4,7 +4,6 @@
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 }
-
 /** Font Families */
 @font-face {
     font-family: RobotoCondensed-Bold;
@@ -352,7 +351,7 @@ input {
 #modalCreate .modal-footer, #dd-editModal .modal-footer {
     background-color: rgba(25,40,47, 1.0) !important;
 }
-#modalCreate .modal-footer a, #dd-editModal .modal-footer a {
+#modalCreate .modal-footer div, #dd-editModal .modal-footer div {
     color: rgb(218,220,207); 
 }
 #importedDataModal {

@@ -37,111 +37,12 @@
         <script>
             // Transitions
             document.addEventListener("DOMContentLoaded", function(){
-
-                let txnID = "";
                 let input = {id: "", signees: "", min: "", users: [], keys: [], inputs: [], total: 0, script: "", proof: ""}; 
-                let output = {amount: 0, address: "", tokenid: "", keys: { id: [], proof: ""} };
-
                 const menu = document.getElementById("start-menu-title");
-                const help = document.getElementById("help-menu-title");
                 const createBtn = document.getElementById("btnWrap1");
                 const provideBtn = document.getElementById("btnWrap2");
-                const helpBtn = document.getElementById("helpBtn");
-                const helpDiv = document.getElementById("help");
-
-                $('#tutorialBtn').on('click', function() {
-                    $('#tutorial').addClass('hide');
-                    // set seen as true, add to Minima.file..
-                });
-                $('#tutorialClose3').on('click', function(){
-                    $('#tutorial').addClass('hide');
-                });
-                $('#tutorialClose2').on('click', function(){
-                    $('#tutorial').addClass('hide');
-                });
-                $('#tutorialClose').on('click', function(){
-                    $('#tutorial').addClass('hide');
-                });
-                $('#carouselNext1').on('click', function(){
-                    $('.carousel.carousel-slider').carousel('next');
-                });
-
-                $('#homeBtn').on('click', function(){
-                    setTimeout(() => {
-                        menu.classList.add("scale-in");
-                        createBtn.classList.add("scale-in");
-                        provideBtn.classList.add("scale-in");
-
-                        $('#s-menu').css("display", "block");
-                        $('#s-help').css("display", "none");
-
-                    }, 150);
-
-                });
-                $('#homeBtn2').on('click', function(){
-                    setTimeout(() => {
-                        menu.classList.add("scale-in");
-                        createBtn.classList.add("scale-in");
-                        provideBtn.classList.add("scale-in");
-
-                        $('#s-menu').css("display", "block");
-                        $('#s-create').css("display", "none");
-
-                    }, 150);
-
-                });
-                $('#homeBtn3').on('click', function(){
-                    // reset... 
-                    input.users = [];
-                    input.keys = [];
-                    $('#s-create').css('display', 'block');
-                    $('#s-stage1').addClass('hide');
-
-                });
-                $('#homeBtn4').on('click', function(){
-
-                    if(!$('#continueBtnWrapper').hasClass('hide')) {
-                        $('#continueBtnWrapper').addClass('hide');
-                    }
-
-                    if(!$('#postContractWrapper').hasClass('hide')) {
-                        $('#postContractWrapper').addClass('hide');
-                    }
-
-                    $('#s-stage1-2').addClass('hide');
-                    $('#s-stage1').removeClass('hide');
-                });
-                $('#homeBtn5').on('click', function(){
-                    $('#s-contracts').addClass('hide');
-                    $('#s-menu').css('display', 'block');
-                });
-                $('#createBtn').on('click', function(){
-
-                    setTimeout(() => {
-                        menu.classList.add("scale-out");
-                        createBtn.classList.add("scale-out");
-                        provideBtn.classList.add("scale-out");
-
-
-                        $('#s-menu').css("display", "none");
-                        $('#s-create').css("display", "block");
-
-                    }, 75);
-                    
-
-                });
-
-                function m_exportFunction() {
-                    var html = `<ul class="coll-tip1 collection with-header">
-                        <li class="collection-header"><h4>Tip #1 &mdash; Inputs</h4></li>
-                        <li class="collection-item">To obtain your partner's coins use these functions in your MINI terminal</li>
-                        <li class="collection-item">&mdash; <a onclick="m_exportFunction()" href=''>exportcoin</a> <span id="descr">[coinid] - export the proof of a single coin. Share it.</span></li>
-                        <li class="collection-item">&mdash; <a href=''>importcoin</a> <span id="descr">[data] - Import the proof of a coin.</span></li>
-                        <li class="collection-item">&mdash; <a href=''>keepcoin</a>  <span id="descr">[coinid] - Add a coin to the list of coins you keep track of. MUST be a recent coin in the current blocks.</span></li>
-                    </ul>`;
-                    $('#s-tip1 > #coll-tip1').remove();
-
-                }
+                
+                // Handy Functions
                 function copyText(id) {
 
                     var str = document.getElementById(id).value;
@@ -169,17 +70,57 @@
                     M.toast({html: "Copied Package to Clipboard", classes: "success"});
                     
                 }
-                
+
+                setTimeout(() => {
+                    menu.classList.add("scale-in");
+                    createBtn.classList.add("scale-in");
+                    provideBtn.classList.add("scale-in");
+                }, 300);
+                // Back Buttons
+                $('#homeBtn').on('click', function(){
+                    
+                    $('#s-menu').css("display", "block");
+                    $('#s-help').css("display", "none");
+
+                });
+                $('#homeBtn2').on('click', function(){
+
+                    $('#s-menu').css("display", "block");
+                    $('#s-create').css("display", "none");
+
+                });
+                $('#homeBtn3').on('click', function(){
+
+                    $('#s-create').css('display', 'block');
+                    $('#s-stage1').addClass('hide');
+
+                });
+                $('#homeBtn4').on('click', function(){
+
+                    $('#s-stage1-2').addClass('hide');
+                    $('#s-stage1').removeClass('hide');
+                });
+                $('#homeBtn5').on('click', function(){
+                    $('#s-contracts').addClass('hide');
+                    $('#s-menu').css('display', 'block');
+                });
+                $('#createBtn').on('click', function(){
+
+                    $('#s-menu').css("display", "none");
+                    $('#s-create').css("display", "block");
+
+                });
+                // Stage 1
                 $('#proceedBtn').on('click', function(){
+                
+                    $('#participants > ul:last-child').empty();
                     // reset
                     input.signees = 0;
                     input.min = 0;
-
-                    $('#participants > ul:last-child').empty();
                     let confirmed = false;
-                    var users = $('#users').val();
+                    let users = $('#users').val();
+                    let minimum = $('#minimum').val();
                     users = parseInt(users);
-                    var minimum = $('#minimum').val();
                     minimum = parseInt(minimum);
 
                     $('#modalCreate').modal({
@@ -206,20 +147,21 @@
                         },
                         onCloseEnd: function() {
                             if(confirmed) {
-                                // empty on leave...   
-                                $('#users').val("");
-                                $('#minimum').val("");
+                                input.signees = users; // input field
+                                input.min = minimum; // input field
 
-                                input.signees = users;
-                                input.min = minimum;
+                                // empty on leave...   
+                                $('#users').val(""); // empty input field
+                                $('#minimum').val(""); // empty input field
+
                                 let json = JSON.stringify(input);
                                 Minima.file.save(json, "inputs.txt", function(res){
                                     if (res.success) {
+                                        // change view 
                                         $('#s-create').css("display", "none");
                                         $('#s-stage1').removeClass('hide');
-
+                                        // add input fields for users
                                         for (let i = 0; i < input.signees; i++) {
-
                                             let markup = 
                                                     '<li class="collection-item user-item">'+
                                                         '<div class="card blue-grey darken-1">'+
@@ -228,11 +170,11 @@
                                                             '</div>'+
                                                             '<div class="card-content">'+
                                                                 '<div class="input-field">'+
-                                                                    '<input id="name'+i+'" type="text"/>'+
+                                                                    '<input id="name'+i+'" type="text" max="256"/>'+
                                                                     '<label for="name'+i+'">Name</label>'+
                                                                 '</div>'+
                                                                 '<div class="input-field">'+
-                                                                    '<input id="key'+i+'" type="text"/>'+
+                                                                    '<input id="key'+i+'" type="text" max="256"/>'+
                                                                     '<label for="key'+i+'">Public key</label>'+
                                                                 '</div>'+
                                                             '</div>'+
@@ -240,33 +182,19 @@
                                                     '</li>';
                                             $('#participants > ul:last-child').append(markup);
                                         }
-
                                     } else {
-                                        alert("Minima is offline...");
+                                        M.toast({html: "Minima is offline!"});
                                     }
                                 });
                             }
                         }
                     }); 
                 });
+                // Stage 2
                 $('#proceedBtnStage1').on('click', function(){
-                    
-                    if ($('#packageHelper').hasClass('hide')){
-                        $('#packageHelper').removeClass('hide');
-                    }
-                    
-                    // reset
+                // reset
                     input.users = [];
                     input.keys = [];
-
-                    if(!$('#copyPackageWrapper').hasClass('hide')) {
-                        $('#copyPackageWrapper').addClass('hide');
-                    }
-
-                    // declaring temporary Arrays
-                    let idArr = [];
-                    let valueArr = [];
-
                     $('#participants ul').find('li input[type="text"]').each(function() {
                         if($(this)[0].id.substring(0,4) == "name"){
                             // SAVE USERS
@@ -275,9 +203,7 @@
                             // SAVE KEYS
                             input.keys.push($(this)[0].value);
                         }
-                        
                     });
-
                     let json = JSON.stringify(input);
                     Minima.file.save(json, "inputs.txt", function(res){
                         if(res.success) { 
@@ -337,25 +263,23 @@
                             });
                         }
                     });
-
-                    
-
                 });
+                // Stage 3
                 $(document).on('click', "#copyAddress", function(){
-                    // Create random ID
+                // Create random ID
                     const id = Math.floor(Math.random()*1000000000);
                     input.id = id;
                     // creating json package
                     let data = {
-                        id: id,
-                        type: "",
-                        message: "",
-                        keys: [],
-                        users: [],
-                        hexaddress: "",
-                        script: "",
-                        min: 0,
-                        signees: ""
+                        id: id, // TRANSACTION ID
+                        type: "", // PACKAGE TYPE
+                        message: "", // MESSAGE
+                        keys: [], // PUBLIC KEYS OF USERS
+                        users: [], // NAME OF USERS
+                        hexaddress: "", // HEXADDRESS OF SCRIPT
+                        script: "", // ACTUAL SCRIPT
+                        min: 0, // MINIMUM SIGNATURES NEEDED
+                        signees: "" // AMOUNT OF SIGNATURES
                     }
 
                     // set the json package.
@@ -373,36 +297,13 @@
                     data = btoa(data);
                     // copy to clipboard.
                     copyBase64(data);
-                    // Display Script
-                    $('#multiSigScript > :last-child').remove();
-
-                    $('#packageHelper').addClass('hide');
-                    $('#copyPackageWrapper').addClass('hide');
-                    $('#continueBtnWrapper').removeClass('hide');
-
-                    let markup = 
-                            '<div class="row">'+
-                                '<div class="col s12">'+
-                                    '<div id="toSendWrapper">'+
-                                        '<div>'+
-                                            '<p>How much Minima would you like to spend in this contract?</p>'+
-                                            '<div class="input-field">'+
-                                                '<input id="toSend" type="number"/>'+
-                                                '<label for="toSend">Total amount to spend</label>'+
-                                            '</div>'+
-                                        '</div>'+
-                                    '</div>'+
-                                '</div>'+
-                            '</div>';
-
-                    $('#multiSigScript').append(markup);
-
-                    // Change title
-                    const title = '<i id="info" class="tiny material-icons" style="margin: 0;">info</i> Now that all your participant(s) are tracking this contract, let us continue...';
-            
-                    $('#s-stage1-2 #create-menu-title h1').html(title);
+                    
+                    // continue..
+                    $('#s-stage1-2').addClass('hide');
+                    $('#s-stage3-5').removeClass('hide');
                     
                 });
+                // Stage 3.5
                 $(document).on('click', '#endStageBtn1', function(){
 
                     // amount user wants to spend
@@ -422,37 +323,19 @@
                     
                     // Create and post transaction
                     const txn = 'txncreate '+id+';'+
-                                "txnstate "+id+" "+125+" "+input.signees+';'+
-                                "txnstate "+id+" "+126+" "+input.min+';'+
                                 'txnauto '+id+' '+amnt+' '+input.proof+' '+'0x00';
                               
-
                     input.keys.forEach((key, i) => {
                         signee += 
                         '<li class="collection-item contract-item"><div>Signee #'+i+'&mdash;'+input.users[i]+'</div><a id="users" class="secondary-content">'+key+'</a></li>';
                     });
-
-                    
                               
                     // Create Transaction...
                     Minima.cmd(txn, function(res) {
                         // check all responses..
                         if (Minima.util.checkAllResponses(res)) {
-                            // Change title
-                            const title = '<i id="info" class="tiny material-icons" style="margin: 0;">info</i> This is your contract.  Post when ready!';            
-                            $('#s-stage1-2 #create-menu-title h1').html(title);
 
-                            // show Btn
-                            $('#postContractWrapper').removeClass('hide');
-                            // hide this btn
-                            $('#continueBtnWrapper').addClass('hide');
-                            
                             M.toast({html: "Completed Contract...", classes:"success"});
-
-                            $('#multiSigScript > :last-child').remove();
-
-                            $('#s-stage1-2 > .row .col #titles').html("Your <span id='brand' style='width: 30px;'>Polysig</span> Contract");
-
                             let markup =
                                     '<div class="row">'+
                                         '<div class="col s12">'+
@@ -479,8 +362,11 @@
                                             '</div>'+
                                         '</div>'+
                                     '</div>';
-                            $('#multiSigScript').append(markup);
 
+                            $('#contractWrap').append(markup);
+                                                        
+                            $('#s-stage3-5').addClass('hide');
+                            $('#s-stage4').removeClass('hide');
 
                         } else {
                             M.toast({html: "Transaction failed to post..."});
@@ -489,25 +375,22 @@
                     });
 
                 });
+                // Stage 4
                 $('#postBtn').on('click', function() {
-                    // remove contract
-                    $('#multiSigScript > :last-child').remove();
-                    // hide btn
-                    $('#postContractWrapper').addClass('hide');
-                    // hide section
-                    $('#s-stage1-2').addClass('hide');
-                    // show main menu 
+                    // Hide form
+                    $('#s-stage4').addClass('hide');
+                    // Back to main menu 
                     $('#s-menu').css('display', 'block');
-
+                
                     Minima.file.load("inputs.txt", function(res){
+                        // load from inputs
                         if (res.success) {
-
                             var data = JSON.parse(res.data);
-
+                            // Post it
                             Minima.cmd('txnpost '+ data.id, function(resp){
+                                // if successful show message, add to sql, then delete from txnlist
                                 if (resp.status) {
                                     M.toast({html: 'Success! Contract posted!', classes: 'success'});
-
                                     const INSERT = "INSERT INTO CONTRACTS VALUES ('";
                                     Minima.cmd('txnlist ' + input.id, function(respo) {
                                         if (respo.status) {
@@ -520,14 +403,10 @@
                                                     Minima.cmd('txndelete '+input.id, function(){});
                                                 }
                                             });
+                                        }
+                                    });
                                 }
-                                
                             });
-
-                                }
-                            })
-                            
-
                         }
                     }); 
                 });
@@ -782,11 +661,7 @@
                                                 '<li class="collection-item input-field">'+
                                                     '<input id="importTXN" type="text"/>'+ 
                                                     '<label class="" for="importTXN">Import the final transaction</label>'+
-                                                '</li>'+
-                                                '<li class="collection-item input-field">'+
-                                                    '<input id="userKey" type="text"/>'+ 
-                                                    '<label class="" for="userKey">Insert your public key</label>'+
-                                                '</li>'+        
+                                                '</li>'+     
                                             '<ul>';
 
                                             $('.postTransaction').removeClass('hide');
@@ -815,8 +690,8 @@
                 $(document).on('click', '.postTransaction', function(){
                     // Importing Package... 
                     let finalPkg = $('#importTXN').val();
-                    // Get key
-                    let key = $('.contract-imp #userKey').val();
+                    // what key should I sign with...
+                    let whatKey = "";
                     // UX post
                     let markup = 
                     '<ul class="collection with-header contract-posted">'+
@@ -827,39 +702,48 @@
                     $('.postTransaction').addClass('hide');
                     // convert base64 to string
                     let data = atob(finalPkg);
-
+                    
+                    
                     // parse string
                     if (JSON.parse(data)) {
                         data = JSON.parse(data);
+                        let allKeys = JSON.parse(data.keys);
+                        Minima.cmd('keys', function(res){
+                            if (res.status) {
+                                res.response.publickeys.forEach(index => {
+                                    allKeys.forEach(key => {
+                                        if (key == index.publickey) {
+                                            whatKey = key;
+                                            console.log('Found the signing key..');
+                                            console.log(whatKey);
+                                        }
+                                    });
+                                });
+                                console.log("I will sign with this key:"+whatKey);
 
-                        // create the transaction
-                        const txn = 
-                                    'txnimport '+data.id+' '+data.txn+';'+
-                                    'txnsign '+data.id+' '+key+';'+
-                                    'txnpost '+data.id+' '+';'+
-                                    'txndelete '+data.id;
-                        // do the posting txn
-                        Minima.cmd(txn, function(res){
+                                // create the transaction
+                                const txn = 
+                                            'txnimport '+data.id+' '+data.txn+';'+
+                                            'txnsign '+data.id+' '+whatKey+';'+
+                                            'txnpost '+data.id+' '+';'+
+                                            'txndelete '+data.id;
+                                // do the posting txn
+                                Minima.cmd(txn, function(res){
 
-                            if (Minima.util.checkAllResponses(res)){  
-                                M.toast({html: "You have signed and posted this transaction successfully!", classes: "success"});
+                                    if (Minima.util.checkAllResponses(res)){  
+                                        M.toast({html: "You have signed and posted this transaction successfully!", classes: "success"});
 
-                                let markup = '<ul class="collection with-header"><li class="collection-header">Posted!</li></ul>';
-                                $('.contract-imp').replaceWith(markup);
+                                        let markup = '<ul class="collection with-header"><li class="collection-header">Posted!</li></ul>';
+                                        $('.contract-posted').replaceWith(markup);
 
-                                $('.contract-imp').remove();
-                            } 
+                                        $('.contract-posted').remove();
+                                    } 
+                                });
+                            }
                         });
-                                    
-
-                        
-                       
-
                     }
+                        
 
-
-
-                
                 });
                 // Toggle on/off
                 $(document).on('click', '#deleteForeverBtn', function(){
@@ -914,9 +798,7 @@
                     $('#contract').removeClass("hide");
                     $('#contract-details').addClass("hide");
                 })
-                
-                
-                
+            
                 /** TOOLS */
                 $('#tools').on('click', function() {
 
@@ -942,14 +824,14 @@
                     
                     
                 });
-
+                // Generate Key
                 $(document).on('click', '#copyCoin', function(){
                     
                     var id = $('#pubKey').val();
 
                     if (id.length > 0) {
                         const el = document.createElement('textarea');
-                        el.value = id.substring(0, id.length-12);
+                        el.value = id;
                         document.body.appendChild(el);
                         el.select();
                         document.execCommand('copy');
@@ -975,7 +857,6 @@
                         $('#generateTool').removeClass('hide');
                     }
                 });
-
                 $('#newKey').on('click', function(){
 
                     Minima.cmd('keys new', function(res){
@@ -1011,8 +892,7 @@
                         if ($('#generateTool').length > 0) {
                             $('#generateTool').addClass('hide');
                         }
-                    
-
+                
                         let markup = 
                                     '<div class="row">'+
                                         '<div class="col s12">'+
@@ -1027,7 +907,7 @@
                                     '</div>'+
                                     '<div class="row">'+
                                         '<div class="col s12">'+
-                                            '<div id="importPkgBtn" class="modal-trigger btn-flat waves-effect waves-light waves-block polyBtn" data-target="toScriptModal">Import Data Package</div>'+
+                                            '<div id="importPkgBtn" class="modal-trigger btn-flat waves-effect waves-light waves-block polyBtn" href="#">Import Data Package</div>'+
                                             '<div id="clearImport" class="btn-flat waves-effect waves-light waves-block">Clear</div>'+
                                         '</div>'+
                                     '</div>';
@@ -1100,7 +980,7 @@
                                     dismissible: false,
                                     opacity: 0.2,
                                     onOpenStart: function(){
-                                        console.log(data);
+                                        
                                         $('#toSignModal > .modal-content > h4').html("You are about to sign a <span style='font-weight:600;'>Contract Transaction</span>, are you sure?");
                                         $('#toSignModal #users').text(JSON.parse(data.users));
                                         $('#toSignModal #scriptAddr').text(data.hexaddress);
@@ -1118,32 +998,45 @@
                                     onCloseEnd: function() {
                                         
                                         if(isConfirmed) {
-
-                                            let key = $('#toSignModal #userKey').val();
-
-                                            Minima.cmd('txnimport '+data.id+' '+data.txn+';'+'txnsign '+data.id+' '+key+';'+'txnexport '+data.id, function(res){
-                                                
-                                                if (Minima.util.checkAllResponses(res)){
-
-                                                    data.txn = res[2].response.transaction;
-                
-                                                    data = JSON.stringify(data);
-                                                    data = btoa(data);
-                                                    copyBase64(data);
-                                                    isConfirmed = false;
-                                                    M.toast({html: "Signed and package copied to your clipboard!"});
-                                                    
-
-                                                    
-                                                } else {
-                                                    M.toast({html: "Something went wrong!"});
+                                            let allKeys = JSON.parse(data.keys);
+                                            let whatKey = ""; // what key should I sign with... 
+                                            Minima.cmd('keys', function(res){
+                                                if (res.status) {
+                                                    res.response.publickeys.forEach(index => {
+                                                        allKeys.forEach(key => {
+                                                            if (key == index.publickey) {
+                                                                whatKey = key;
+                                                                console.log('Found the signing key..');
+                                                                console.log(whatKey);
+                                                            }
+                                                        });
+                                                    });
+                                                    console.log("I will sign with this key:"+whatKey);
+                                                    if(whatKey.length > 0) {
+                                                        Minima.cmd('txnimport '+data.id+' '+data.txn+';'+'txnsign '+data.id+' '+whatKey+';'+'txnexport '+data.id, function(res){
+                                                            console.log(res);
+                                                            if (Minima.util.checkAllResponses(res)){
+            
+                                                                data.txn = res[2].response.transaction;
+                            
+                                                                data = JSON.stringify(data);
+                                                                data = btoa(data);
+                                                                copyBase64(data);
+                                                                isConfirmed = false;
+                                                                M.toast({html: "Signed and package copied to your clipboard!"});
+                                                                
+            
+                                                                
+                                                            } else {
+                                                                M.toast({html: "Something went wrong!"});
+                                                            }
+            
+                                                        });
+                                                    } else {
+                                                        M.toast({html: "No key entered!"});
+                                                    }
                                                 }
-
                                             });
-
-                                            $('#userKey').val('');
-
-                                           
                                         }
                                     }
                                 });
@@ -1163,152 +1056,10 @@
                     $('#importData').val('');
 
                 });
-                
-                setTimeout(() => {
-                    menu.classList.add("scale-in");
-                    createBtn.classList.add("scale-in");
-                    provideBtn.classList.add("scale-in");
-                }, 300);
             });
         </script>
 
-        <!-- Tutorial Overlay -->
-        <div id="tutorial" class="carousel carousel-slider hide">
-            <div id="first" class="carousel-item carousel-fixed-item" href="#one!">
-                <span><a id="tutorialClose" class="right exit">&#10005;</a></span>
-                <!-- helper div to fix valign issues -->
-                <div class="row" style="position: relative; top:5%">
-                    <div class="empty" style="height:35px;"></div>
-                </div>
-                <div class="row valign-wrapper">
-                    <div class="col s12 center-align">
-                        <h4>
-                            <span id="brand" style="font-size: 2.5rem;">PolySig</span>
-                        </h4>
-                    </div>
-                </div>
-                <div class="row valign-wrapper">
-                    <div class="col s12 center-align">
-                        <img style="width: 180px;" src="assets/polysig.png" alt="logo">
-                    </div>
-                </div>
-                
-                <div class="row valign-wrapper">
-                    <div class="col s12 center-align">
-                        <h4>Welcome!</h4>
-                        <p>Let's get started with a quick tutorial.</p>
-                    </div>  
-                </div>
-                <div class="row valign-wrapper">
-                    <div class="col s12 center-align">
-                        <i id="carouselNext1" class="material-icons next">arrow_forward</i>
-                    </div>
-                </div>
-            </div>
-            <div id="second" class="carousel-item carousel-fixed-item" href="#two!">
-                <span><a id="tutorialClose2" class="right exit">&#10005;</a></span>
-                <!-- helper div to fix valign issues -->
-                <div class="row" style="position: relative; top:5%">
-                    <div class="empty" style="height:35px;"></div>
-                </div>
-                <div class="row valign-wrapper">
-                    <div class="col s12 center-align">
-                        <h4>
-                            <span id="brand" style="font-size: 2.5rem;">PolySig</span>
-                        </h4>
-                    </div>
-                </div>
-                <div class="row valign-wrapper">
-                    <div class="col s12 center-align">
-                        <img style="width: 180px;" src="assets/coin.svg" alt="logo">
-                    </div>
-                </div>
-                
-                <div class="row valign-wrapper">
-                    <div class="col s12 center-align">
-                        <h4>Transactions</h4>
-                        <p>Minima transactions are made up of inputs and outputs, where <span style="font-weight: bold;">coins</span> are inputs, and the output is the <span style="font-weight: bold">script address.</span></p>
-                    </div>  
-                </div>
-                <div class="row valign-wrapper">
-                    <div class="col s12 center-align">
-                        <i class="material-icons next">arrow_forward</i>
-                    </div>
-                </div>
-            </div>
-            <div id="third" class="carousel-item carousel-fixed-item" href="#three!">
-                <span><a id="tutorialClose3" class="right exit">&#10005;</a></span>
-                <!-- helper div to fix valign issues -->
-                <div class="row" style="position: relative; top:5%">
-                    <div class="empty" style="height:35px;"></div>
-                </div>
-                <div class="row valign-wrapper">
-                    <div class="col s12 center-align">
-                        <h4>
-                            <span id="brand" style="font-size: 2.5rem;">PolySig</span>
-                        </h4>
-                    </div>
-                </div>
-                <div class="row valign-wrapper">
-                    <div class="col s12 center-align">
-                        <img style="width: 180px;" src="assets/slot-machine.svg" alt="logo">
-                    </div>
-                </div>
-                
-                <div class="row valign-wrapper">
-                    <div class="col s12 center-align">
-                        <h4>MultiSig Contracts</h4>
-                        <p>To spend a coin, the rightful owner must sign the transaction before posting it to the network.</p>
-                        
-                        <p>
-                            Inputting these coins as input then outputting them to a newer transaction/contract, 
-                            signed by 
-                            <span style="font-weight:bold; font-style:italic">2(+)</span> out of 
-                            <span style="font-weight:bold; font-style:italic">n</span> signatures,
-                            will then make it only possible to be spent by the minimum needed signatures <span style="font-weight:bold">you</span> define in the transaction before.
-                        </p>
-                        
 
-                    </div>  
-                </div>
-                <div class="row valign-wrapper">
-                    <div class="col s12 center-align">
-                        <i class="material-icons next">arrow_forward</i>
-                    </div>
-                </div>
-            </div>
-            <div id="fourth" class="carousel-item carousel-fixed-item" href="#four!">
-                <span><a id="tutorialClose4" class="right exit">&#10005;</a></span>
-                <!-- helper div to fix valign issues -->
-                <div class="row" style="position: relative; top:5%">
-                    <div class="empty" style="height:35px;"></div>
-                </div>
-                <div class="row valign-wrapper">
-                    <div class="col s12 center-align">
-                        <h4>
-                            <span id="brand" style="font-size: 2.5rem;">PolySig</span>
-                        </h4>
-                    </div>
-                </div>
-                <div class="row valign-wrapper">
-                    <div class="col s12 center-align">
-                        <img style="width: 180px;" src="assets/rocket-ship.svg" alt="logo">
-                    </div>
-                </div>
-                
-                <div class="row valign-wrapper">
-                    <div class="col s12 center-align">
-                        <h4>Get Started!</h4>
-                        <p>Let's create our very first contract!</p>
-                    </div>  
-                </div>
-                <div class="row valign-wrapper">
-                    <div class="col s12 center-align">
-                        <a id="tutorialBtn" class="btn-flat waves-light waves-effect">Let's go.</a>
-                    </div>
-                </div>
-            </div>
-        </div>
         <a id="tools" class="btn-flat btn waves-effect waves-light waves-block">
             Tools
         </a>
@@ -1379,8 +1130,13 @@
                     </div>
                 </div>
             </div>
-            <!-- Create -->
+            <!-- Create - Stage 1 -->
             <div id="s-create" class="container" style="display: none;">
+                <div id="stages" class="row">
+                    <div class="col s12 center-align">
+                        <h3>Stage 1/4</h3>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="row right" style="position: absolute; right: 3px; top:10px;">
                         <div class="col s12">
@@ -1416,8 +1172,13 @@
                 </div>
                
             </div>
-            <!-- Stage 1 -->
+            <!-- Set Users - Stage 2 -->
             <div id="s-stage1" class="container hide">
+                <div id="stages" class="row">
+                    <div class="col s12 center-align">
+                        <h3>Stage 2/4</h3>
+                    </div>
+                </div>
                 <div class="row center-align">
                     <div class="row right" style="position: absolute; right: 3px; top:10px;">
                         <div class="col s12">
@@ -1447,12 +1208,17 @@
                     </div>
                 </div>
             </div>
-            <!-- Stage 1 - 2 -->
+            <!-- Copy Package - Stage 3 -->
             <div id="s-stage1-2" class="container hide center-align">
+                <div id="stages" class="row">
+                    <div class="col s12 center-align">
+                        <h3>Stage 3/4</h3>
+                    </div>
+                </div>
                 <div class="row center-align">
                     <div id="create-menu-title" class="col s-12">
                         <h1>
-                            <i id="info" class="tiny material-icons" style="margin: 0;">info</i> This is your multi-signature address, Share this with your participant(s) so they can track this contract with you.
+                            <i id="info" class="tiny material-icons" style="margin: 0;">info</i> This is how our multi-signature address is generated... COPY Package below and send it to your participant(s) so they can track this contract with you.
                         </h1>
                     </div>
                 </div>
@@ -1467,34 +1233,80 @@
                         <a id='copyAddress' class='btn-flat waves-effect waves-light polyBtn'>Copy Package</a>
                     </div>
                 </div>
-                <div id="continueBtnWrapper" class="hide row center-align">
-                    <div class="col s12">
-                        <a id="endStageBtn1" class="btn-flat waves-effect waves-light polyBtn">Continue</a>
-                    </div>
-                </div>
-                <div id="postContractWrapper" class="hide row center-align">
-                    <div>
-                        <a id="postBtn" class="btn-flat waves-effect waves-light polyBtn">Post Contract</a>    
-                    </div>
-                </div>
-
                 <div id="packageHelper" class="row">
                     <div class="col s12">
                         <ul class="collapsible z-depth-0">
                             <li>
                               <div class="collapsible-header">Help</div>
+                              <div class="collapsible-body"><span>After sending your participant(s) this package, of a bunch of gibberish text, they should copy paste it in their import tool found in tools.</span></div>
                               <div class="collapsible-body"><span>TOOLS -> Import Data Package</span></div>
                             </li>
                         </ul>
                     </div>
                 </div>
-
-
                 <div class="row center-align">
                     <div class="col s12 center-align">
                         <a id="homeBtn4" class="btn-flat waves-effect waves-light backBtn" style="vertical-align: middle">
                             <i id="forward" class="material-icons left no-padding">arrow_back</i>
                         </a>
+                    </div>
+                </div>
+            </div>
+            <!-- ENTER AMOUNT, SHARE PACKAGE - STAGE 3.5 -->
+            <div id="s-stage3-5" class="container hide center-align">
+                <div id="stages" class="row">
+                    <div class="col s12 center-align">
+                        <h3>Stage 3.5/4</h3>
+                    </div>
+                </div>
+                <div class="row center-align">
+                    <div id="create-menu-title" class="col s-12">
+                        <h1>
+                            <i id="info" class="tiny material-icons" style="margin: 0;">info</i> Now that all your participant(s) are tracking this contract, let us continue...
+                        </h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12">
+                        <div id="toSendWrapper">
+                            <div>
+                                <p>How much Minima would you like to spend in this contract?</p>
+                                <div class="input-field">
+                                    <input id="toSend" type="number"/>
+                                    <label for="toSend">Total amount to spend</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="continueBtnWrapper" class="row center-align">
+                    <div class="col s12">
+                        <a id="endStageBtn1" class="btn-flat waves-effect waves-light polyBtn">Continue</a>
+                    </div>
+                </div>
+            </div>
+            <!-- POST TRANSACTION WHEN READY - STAGE 4-->
+            <div id="s-stage4" class="container hide center-align">
+                <div id="stages" class="row">
+                    <div class="col s12 center-align">
+                        <h3>Stage 4/4</h3>
+                    </div>
+                </div>
+                <div class="row center-align">
+                    <div id="create-menu-title" class="col s-12">
+                        <h1>
+                            <i id="info" class="tiny material-icons" style="margin: 0;">info</i> This is your contract, post when ready!
+                        </h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div id="contractWrap" class="col s12">
+
+                    </div>
+                </div>
+                <div id="postContractWrapper" class="row center-align">
+                    <div>
+                        <a id="postBtn" class="btn-flat waves-effect waves-light polyBtn">Post Contract</a>    
                     </div>
                 </div>
             </div>
@@ -1524,8 +1336,6 @@
                     </div>
                 </div>
             </div>
-            
-        
     </div>
 
     <!-- Confirm Signee Modal -->
@@ -1535,8 +1345,8 @@
             <p id="m-contractType"></p>
         </div>
         <div class="modal-footer">
-            <a class="modal-action modal-close waves-effect waves-red btn-flat ">Cancel</a>
-            <a id="confirm" class="hide modal-action modal-close waves-effect waves-green btn-flat">Confirm</a>
+            <div class="modal-action modal-close waves-effect waves-red btn-flat ">Cancel</div>
+            <div id="confirm" class="hide modal-action modal-close waves-effect waves-green btn-flat">Confirm</div>
         </div>
     </div>
     <!-- Modal For toScript -->
@@ -1589,12 +1399,6 @@
                             <div>RECIPIENT ADDRESS<a id="recipAddr" class="secondary-content"></a></div>
                         </li>
                     </ul>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col s12 input-field">
-                    <input id="userKey" type="text">
-                    <label for="userKey">Insert your public key here...</label>
                 </div>
             </div>
         </div>
