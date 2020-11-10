@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- PolySig, Version 1.0 -->
+<!-- PolySig, Version 0.81 -->
 <!-- Created by Elias Nemr -->
 <!-- Minima, Global -->
 <!-- github.com/eliasnemr -->
@@ -19,9 +19,9 @@
     <body>
         <script>
             $(document).ready(function() {
-
+                // Help Collapsible 
                 $('.collapsible').collapsible();
-
+                // Init Minima
                 Minima.init(function(msg){
                     if (msg.event == "connected") {
                         const TABLE = 'CREATE TABLE IF NOT EXISTS CONTRACTS (id int NOT NULL, address VARCHAR(160), timestamp VARCHAR(160), keys VARCHAR(160) NOT NULL, users VARCHAR(160) NOT NULL, type VARCHAR(160) NOT NULL);SELECT * FROM CONTRACTS';
@@ -39,7 +39,6 @@
             document.addEventListener("DOMContentLoaded", function(){
 
                 let txnID = "";
-                let inp = 1;
                 let input = {id: "", signees: "", min: "", users: [], keys: [], inputs: [], total: 0, script: "", proof: ""}; 
                 let output = {amount: 0, address: "", tokenid: "", keys: { id: [], proof: ""} };
 
@@ -425,7 +424,7 @@
                     const txn = 'txncreate '+id+';'+
                                 "txnstate "+id+" "+125+" "+input.signees+';'+
                                 "txnstate "+id+" "+126+" "+input.min+';'+
-                                'txnauto '+id+' '+amnt+' '+output.proof+' '+'0x00';
+                                'txnauto '+id+' '+amnt+' '+input.proof+' '+'0x00';
                               
 
                     input.keys.forEach((key, i) => {
