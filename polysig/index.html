@@ -676,14 +676,7 @@
                                 }
 
                             });
-
-
-
-
-
                         }); 
-
-
                     });
                 });
                 // Post Transaction
@@ -703,7 +696,6 @@
                     // convert base64 to string
                     let data = atob(finalPkg);
                     
-                    
                     // parse string
                     if (JSON.parse(data)) {
                         data = JSON.parse(data);
@@ -714,12 +706,9 @@
                                     allKeys.forEach(key => {
                                         if (key == index.publickey) {
                                             whatKey = key;
-                                            console.log('Found the signing key..');
-                                            console.log(whatKey);
                                         }
                                     });
                                 });
-                                console.log("I will sign with this key:"+whatKey);
 
                                 // create the transaction
                                 const txn = 
@@ -1006,15 +995,11 @@
                                                         allKeys.forEach(key => {
                                                             if (key == index.publickey) {
                                                                 whatKey = key;
-                                                                console.log('Found the signing key..');
-                                                                console.log(whatKey);
                                                             }
                                                         });
                                                     });
-                                                    console.log("I will sign with this key:"+whatKey);
                                                     if(whatKey.length > 0) {
                                                         Minima.cmd('txnimport '+data.id+' '+data.txn+';'+'txnsign '+data.id+' '+whatKey+';'+'txnexport '+data.id, function(res){
-                                                            console.log(res);
                                                             if (Minima.util.checkAllResponses(res)){
             
                                                                 data.txn = res[2].response.transaction;

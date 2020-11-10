@@ -21,6 +21,10 @@ a {
     margin: 0 !important;
     cursor: pointer;
 }
+#stages h3 {
+    font-size: 1.3rem;
+    font-weight: 600;
+}
 #toolsMenu {
     position: fixed;
     bottom: -1000px;
