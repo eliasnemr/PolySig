@@ -30,6 +30,10 @@
                                 // console.log('Created Contracts SQL Table');
                             }
                         });
+                    } else if (msg.event == 'miningstart') {
+                        M.toast({html: "Mining started!", classes: "success"});
+                    } else if (msg.event == 'miningstop') {
+                        M.toast({html: "Stopped mining..."});
                     }
                 });
             });
@@ -37,7 +41,7 @@
         <script>
             // Transitions
             document.addEventListener("DOMContentLoaded", function(){
-                let input = {id: "", signees: "", min: "", users: [], keys: [], inputs: [], total: 0, script: "", proof: ""}; 
+                let input = {id: "", signees: "", min: "", users: [], keys: [], inputs: [], total: 0, script: "", proof: "", firstTime: false}; 
                 const menu = document.getElementById("start-menu-title");
                 const createBtn = document.getElementById("btnWrap1");
                 const provideBtn = document.getElementById("btnWrap2");
@@ -254,6 +258,8 @@
                                             $('#multiSigScript').append(markup);
 
                                             input.proof = res.response.address.hexaddress;
+
+                                            input.firstTime = false;      
                                         }
                                     });
                                     
@@ -264,6 +270,7 @@
                         }
                     });
                 });
+                
                 // Stage 3
                 $(document).on('click', "#copyAddress", function(){
                 // Create random ID
@@ -297,10 +304,39 @@
                     data = btoa(data);
                     // copy to clipboard.
                     copyBase64(data);
+
+                    // check if first click
+                    if (input.firstTime == false) { 
+
+                        $('#multiSigScript').empty();
+
+                        input.firstTime = true;
+
+                        let markup = 
+                        '<div class="row">'+
+                            '<div class="col s12">'+
+                                '<p style="word-break: break-all; white-space:normal;">'+data+'</p>'+
+                            '</div>'+
+                        '</div>';
+    
+                        $('#multiSigScript').append(markup);
+    
+                        let continueBtn =
+                                        '<div id="continueBtnWrapper2" class="hide row">'+
+                                            '<div class="col s12">'+
+                                                '<div style="background-color: " class="btn-flat polyBtn waves-effect waves-light">Ready to continue</div>'+
+                                            '</div>'+
+                                        '</div>';
+                        $('#copyPackageWrapper').before(continueBtn);
+                        $('#continueBtnWrapper2').removeClass('hide');
+                    }
+
+                    $(document).on('click', '#continueBtnWrapper2', function(){
+                        $('#s-stage1-2').addClass('hide');
+                        $('#s-stage3-5').removeClass('hide');
+                        $('#continueBtnWrapper2').remove();
+                    });
                     
-                    // continue..
-                    $('#s-stage1-2').addClass('hide');
-                    $('#s-stage3-5').removeClass('hide');
                     
                 });
                 // Stage 3.5
@@ -401,6 +437,8 @@
                                             Minima.sql(INSERT+input.id+"', '"+input.proof+"', '"+date+"', '"+keys+"', '"+users+"', '"+type+"')", function(response){
                                                 if (response.status) {
                                                     Minima.cmd('txndelete '+input.id, function(){});
+
+                                                    $('#contractWrap').empty();
                                                 }
                                             });
                                         }
@@ -987,6 +1025,9 @@
                                     onCloseEnd: function() {
                                         
                                         if(isConfirmed) {
+
+
+
                                             let allKeys = JSON.parse(data.keys);
                                             let whatKey = ""; // what key should I sign with... 
                                             Minima.cmd('keys', function(res){
@@ -1018,7 +1059,7 @@
             
                                                         });
                                                     } else {
-                                                        M.toast({html: "No key entered!"});
+                                                        M.toast({html: "No key found to sign with!"});
                                                     }
                                                 }
                                             });
